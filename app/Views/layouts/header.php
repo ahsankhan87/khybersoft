@@ -81,9 +81,9 @@
                 <a href="<?php echo base_url('contact') ?>" class="text-sm font-semibold leading-6 text-dark hover:text-primary">Contact</a>
             </div>
 
-            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+            <!-- <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                 <a href="<?= base_url('login') ?>" class="text-sm font-semibold leading-6 text-dark hover:text-primary">Log in <span aria-hidden="true">&rarr;</span></a>
-            </div>
+            </div> -->
         </nav>
 
         <!-- Mobile menu, show/hide based on menu state -->

@@ -44,6 +44,10 @@
 
 # app.CSPEnabled = false
 
+# Admin Panel (HTTP Basic Auth)
+# panel.user = admin
+# panel.pass = admin123
+
 #--------------------------------------------------------------------
 
 # DATABASE

@@ -215,40 +215,63 @@
             <h2 class="text-3xl font-bold text-white">Ready to Start Your Project?</h2>
             <p class="mt-4 text-xl text-blue-100">Let's discuss your requirements and create a solution that fits your needs</p>
 
+            <!-- Display messages -->
+            <div class="mt-8 max-w-2xl mx-auto text-left">
+                <?php if (session()->has('success')): ?>
+                    <div class="rounded-md bg-green-50 p-4">
+                        <p class="text-sm font-medium text-green-800"><?= session('success') ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (session()->has('error')): ?>
+                    <div class="rounded-md bg-red-50 p-4">
+                        <p class="text-sm font-medium text-red-800"><?= session('error') ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (session()->has('errors')): ?>
+                    <div class="rounded-md bg-red-50 p-4">
+                        <?php foreach (session('errors') as $error): ?>
+                            <p class="text-sm font-medium text-red-800"><?= $error ?></p>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
             <form method="post" action="<?= site_url('custom-development/quote') ?>" class="mt-8 max-w-2xl mx-auto">
                 <?= csrf_field() ?>
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
                         <label for="name" class="sr-only">Full Name</label>
-                        <input type="text" name="name" id="name" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Full Name">
+                        <input type="text" name="name" id="name" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Full Name" value="<?= old('name') ?>">
                     </div>
                     <div>
                         <label for="company" class="sr-only">Company Name</label>
-                        <input type="text" name="company" id="company" class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Company Name">
+                        <input type="text" name="company" id="company" class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Company Name" value="<?= old('company') ?>">
                     </div>
                     <div>
                         <label for="email" class="sr-only">Email Address</label>
-                        <input type="email" name="email" id="email" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Email Address">
+                        <input type="email" name="email" id="email" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Email Address" value="<?= old('email') ?>">
                     </div>
                     <div>
                         <label for="phone" class="sr-only">Phone Number</label>
-                        <input type="tel" name="phone" id="phone" class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Phone Number">
+                        <input type="tel" name="phone" id="phone" class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Phone Number" value="<?= old('phone') ?>">
                     </div>
                     <div class="sm:col-span-2">
                         <label for="project_type" class="sr-only">Project Type</label>
                         <select name="project_type" id="project_type" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary">
                             <option value="">Select Project Type</option>
-                            <option value="web-app">Web Application</option>
-                            <option value="desktop-app">Desktop Application</option>
-                            <option value="ecommerce">E-commerce Website</option>
-                            <option value="mobile-app">Mobile Application</option>
-                            <option value="custom-software">Custom Software</option>
-                            <option value="other">Other</option>
+                            <option value="web-app" <?= old('project_type') === 'web-app' ? 'selected' : '' ?>>Web Application</option>
+                            <option value="desktop-app" <?= old('project_type') === 'desktop-app' ? 'selected' : '' ?>>Desktop Application</option>
+                            <option value="ecommerce" <?= old('project_type') === 'ecommerce' ? 'selected' : '' ?>>E-commerce Website</option>
+                            <option value="mobile-app" <?= old('project_type') === 'mobile-app' ? 'selected' : '' ?>>Mobile Application</option>
+                            <option value="custom-software" <?= old('project_type') === 'custom-software' ? 'selected' : '' ?>>Custom Software</option>
+                            <option value="other" <?= old('project_type') === 'other' ? 'selected' : '' ?>>Other</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2">
                         <label for="description" class="sr-only">Project Description</label>
-                        <textarea name="description" id="description" rows="4" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Tell us about your project..."></textarea>
+                        <textarea name="description" id="description" rows="4" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Tell us about your project..."><?= old('description') ?></textarea>
                     </div>
                 </div>
                 <div class="mt-6">
