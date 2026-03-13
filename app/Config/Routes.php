@@ -19,7 +19,7 @@ $routes->get('/', [Home::class, 'index']);
 $routes->get('home', [Home::class, 'index']);
 // Add these routes
 $routes->get('custom-development', [CustomDevelopment::class, 'index']);
-$routes->post('custom-development/quote', [CustomDevelopment::class, 'quote']);
+$routes->post('custom-development/quote', [CustomDevelopment::class, 'quote'], ['filter' => 'honeypot']);
 
 $routes->post('subscribe', 'Home::subscribe');
 // Other pages
@@ -27,7 +27,7 @@ $routes->get('products', [Products::class, 'index']);
 $routes->get('pricing', [Pricing::class, 'index']);
 $routes->get('blog', [Blog::class, 'index']);
 $routes->get('contact', [Contact::class, 'index']);
-$routes->post('contact/send', [Contact::class, 'send']);
+$routes->post('contact/send', [Contact::class, 'send'], ['filter' => 'honeypot']);
 
 $routes->get('news', [News::class, 'index']);
 $routes->get('news/new', [News::class, 'new']); // Add this line

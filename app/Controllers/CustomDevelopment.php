@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\CustomDevelopmentQuoteModel;
+use Config\Services;
 
 class CustomDevelopment extends BaseController
 {
@@ -27,6 +28,14 @@ class CustomDevelopment extends BaseController
     {
         // Handle custom development quote requests
         if ($this->request->getMethod() === 'POST') {
+            if ($this->isSpamSubmission()) {
+                return redirect()->back()->with('error', 'Unable to submit right now. Please try again.')->withInput();
+            }
+
+            if ($this->isRateLimited()) {
+                return redirect()->back()->with('error', 'Too many submissions. Please wait a minute and try again.')->withInput();
+            }
+
             $model = new CustomDevelopmentQuoteModel();
 
             $validation = \Config\Services::validation();
@@ -46,21 +55,30 @@ class CustomDevelopment extends BaseController
             }
 
             try {
+                $payload = [
+                    'name'         => trim((string) ($data['name'] ?? '')),
+                    'company'      => trim((string) ($data['company'] ?? '')),
+                    'email'        => strtolower(trim((string) ($data['email'] ?? ''))),
+                    'phone'        => trim((string) ($data['phone'] ?? '')),
+                    'project_type' => trim((string) ($data['project_type'] ?? '')),
+                    'description'  => trim((string) ($data['description'] ?? '')),
+                ];
+
                 // Save to database
                 $model->save([
-                    'name'         => $data['name'],
-                    'company'      => $data['company'] ?? null,
-                    'email'        => $data['email'],
-                    'phone'        => $data['phone'] ?? null,
-                    'project_type' => $data['project_type'],
-                    'description'  => $data['description'],
+                    'name'         => $payload['name'],
+                    'company'      => $payload['company'] !== '' ? $payload['company'] : null,
+                    'email'        => $payload['email'],
+                    'phone'        => $payload['phone'] !== '' ? $payload['phone'] : null,
+                    'project_type' => $payload['project_type'],
+                    'description'  => $payload['description'],
                 ]);
 
                 // Send notification email to admin
-                $this->sendAdminNotification($data);
+                $this->sendAdminNotification($payload);
 
                 // Send confirmation email to user
-                $this->sendUserConfirmation($data);
+                $this->sendUserConfirmation($payload);
 
                 return redirect()->back()->with('success', 'Thank you for your inquiry! We\'ll contact you within 24 hours.');
             } catch (\Exception $e) {
@@ -70,6 +88,46 @@ class CustomDevelopment extends BaseController
         }
 
         return redirect()->to('/custom-development');
+    }
+
+    /**
+     * Detect obvious bot submissions using honeypot and submit speed.
+     */
+    private function isSpamSubmission(): bool
+    {
+        $honeypotValue = (string) $this->request->getPost('website');
+        if ($honeypotValue !== '') {
+            log_message('warning', 'Quote form blocked by honeypot from IP: {ip}', ['ip' => (string) $this->request->getIPAddress()]);
+            return true;
+        }
+
+        $startedAt = (int) $this->request->getPost('form_started_at');
+        if ($startedAt <= 0) {
+            return true;
+        }
+
+        $elapsed = time() - $startedAt;
+        if ($elapsed < 3 || $elapsed > 7200) {
+            log_message('warning', 'Quote form blocked by timing check from IP: {ip} ({elapsed}s)', [
+                'ip'      => (string) $this->request->getIPAddress(),
+                'elapsed' => $elapsed,
+            ]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Limit quote submissions per IP to reduce burst spam.
+     */
+    private function isRateLimited(): bool
+    {
+        $throttler = Services::throttler();
+        $ipHash    = md5((string) $this->request->getIPAddress());
+        $key       = 'custom_quote_form_' . $ipHash;
+
+        return !$throttler->check($key, 3, MINUTE);
     }
 
     /**

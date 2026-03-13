@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\ContactModel;
+use Config\Services;
 
 
 class Contact extends BaseController
@@ -28,6 +29,15 @@ class Contact extends BaseController
     {
         // Handle contact form submission
         if ($this->request->getMethod() === 'POST') {
+            if ($this->isSpamSubmission()) {
+                // Use a generic message to avoid giving bots feedback.
+                return redirect()->back()->with('error', 'Unable to submit right now. Please try again.')->withInput();
+            }
+
+            if ($this->isRateLimited()) {
+                return redirect()->back()->with('error', 'Too many submissions. Please wait a minute and try again.')->withInput();
+            }
+
             $model = new ContactModel();
 
             $validation = \Config\Services::validation();
@@ -45,14 +55,21 @@ class Contact extends BaseController
             }
 
             try {
+                $payload = [
+                    'name'    => trim((string) ($data['name'] ?? '')),
+                    'email'   => strtolower(trim((string) ($data['email'] ?? ''))),
+                    'subject' => trim((string) ($data['subject'] ?? '')),
+                    'message' => trim((string) ($data['message'] ?? '')),
+                ];
+
                 // Save to database
-                $model->save($data);
+                $model->save($payload);
 
                 // Send notification email to admin
-                $this->sendAdminNotification($data);
+                $this->sendAdminNotification($payload);
 
                 // Send confirmation email to user
-                $this->sendUserConfirmation($data);
+                $this->sendUserConfirmation($payload);
 
                 return redirect()->back()->with('success', 'Thank you for your message! We\'ll get back to you soon.');
             } catch (\Exception $e) {
@@ -61,6 +78,49 @@ class Contact extends BaseController
         }
 
         return redirect()->to('/contact');
+    }
+
+    /**
+     * Detect obvious bot submissions using honeypot and submit speed.
+     */
+    private function isSpamSubmission(): bool
+    {
+        // Honeypot: real users should never fill this hidden field.
+        $honeypotValue = (string) $this->request->getPost('website');
+        if ($honeypotValue !== '') {
+            log_message('warning', 'Contact form blocked by honeypot from IP: {ip}', ['ip' => (string) $this->request->getIPAddress()]);
+            return true;
+        }
+
+        // Time trap: bot submissions are typically near-instant.
+        $startedAt = (int) $this->request->getPost('form_started_at');
+        if ($startedAt <= 0) {
+            return true;
+        }
+
+        $elapsed = time() - $startedAt;
+        if ($elapsed < 3 || $elapsed > 7200) {
+            log_message('warning', 'Contact form blocked by timing check from IP: {ip} ({elapsed}s)', [
+                'ip'      => (string) $this->request->getIPAddress(),
+                'elapsed' => $elapsed,
+            ]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Limit contact submissions per IP to reduce burst spam.
+     */
+    private function isRateLimited(): bool
+    {
+        $throttler = Services::throttler();
+        $ipHash    = md5((string) $this->request->getIPAddress());
+        $key       = 'contact_form_' . $ipHash;
+
+        // Allow up to 3 submissions per minute per IP.
+        return !$throttler->check($key, 3, MINUTE);
     }
 
     /**

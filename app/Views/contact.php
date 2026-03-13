@@ -109,6 +109,12 @@
                 <?php endif; ?>
                 <form method="post" action="<?= site_url('contact/send') ?>" class="space-y-6">
                     <?= csrf_field() ?>
+                    <input type="hidden" name="form_started_at" value="<?= time() ?>">
+
+                    <div style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+                        <label for="website">Website</label>
+                        <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                    </div>
 
                     <div>
                         <label for="name" class="block text-sm font-medium text-dark">Name</label>
