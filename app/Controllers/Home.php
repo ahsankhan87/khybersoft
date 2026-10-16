@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\SubscriberModel;
+use Config\Services;
 
 class Home extends BaseController
 {
@@ -29,11 +30,19 @@ class Home extends BaseController
     {
         // Handle the newsletter signup form submission
         if ($this->request->getMethod() === 'POST') {
+            if ($this->isSpamSubmission()) {
+                return redirect()->back()->with('error', 'Unable to subscribe right now. Please try again.')->withInput();
+            }
+
+            if ($this->isRateLimited()) {
+                return redirect()->back()->with('error', 'Too many subscription attempts. Please wait a minute and try again.')->withInput();
+            }
+
             $model = new SubscriberModel();
 
             $data = [
-                'email' => $this->request->getPost('email'),
-                'name'  => $this->request->getPost('name'),
+                'email' => strtolower(trim((string) $this->request->getPost('email'))),
+                'name'  => trim((string) $this->request->getPost('name')),
             ];
 
             // Basic validation
@@ -63,6 +72,46 @@ class Home extends BaseController
         }
 
         return redirect()->to('/');
+    }
+
+    /**
+     * Detect obvious bot subscriptions using honeypot and submit speed.
+     */
+    private function isSpamSubmission(): bool
+    {
+        $honeypotValue = (string) $this->request->getPost('website');
+        if ($honeypotValue !== '') {
+            log_message('warning', 'Newsletter subscription blocked by honeypot from IP: {ip}', ['ip' => (string) $this->request->getIPAddress()]);
+            return true;
+        }
+
+        $startedAt = (int) $this->request->getPost('form_started_at');
+        if ($startedAt <= 0) {
+            return true;
+        }
+
+        $elapsed = time() - $startedAt;
+        if ($elapsed < 3 || $elapsed > 7200) {
+            log_message('warning', 'Newsletter subscription blocked by timing check from IP: {ip} ({elapsed}s)', [
+                'ip'      => (string) $this->request->getIPAddress(),
+                'elapsed' => $elapsed,
+            ]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Limit subscription bursts per IP to reduce form abuse.
+     */
+    private function isRateLimited(): bool
+    {
+        $throttler = Services::throttler();
+        $ipHash    = md5((string) $this->request->getIPAddress());
+        $key       = 'newsletter_form_' . $ipHash;
+
+        return !$throttler->check($key, 3, MINUTE);
     }
 
     /**

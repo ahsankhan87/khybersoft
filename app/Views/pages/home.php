@@ -218,6 +218,11 @@
 
             <form method="post" action="<?= site_url('subscribe') ?>" class="mt-8 max-w-md mx-auto sm:flex">
                 <?= csrf_field() ?>
+                <input type="hidden" name="form_started_at" value="<?= time() ?>">
+                <div style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+                    <label for="newsletter-website">Website</label>
+                    <input type="text" name="website" id="newsletter-website" tabindex="-1" autocomplete="off">
+                </div>
                 <label for="email" class="sr-only">Email address</label>
                 <input id="email" name="email" type="email" autocomplete="email" required class="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" placeholder="Enter your email">
                 <div class="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">

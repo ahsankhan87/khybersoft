@@ -77,8 +77,9 @@ class CustomDevelopment extends BaseController
                 // Send notification email to admin
                 $this->sendAdminNotification($payload);
 
-                // Send confirmation email to user
-                $this->sendUserConfirmation($payload);
+                if ($this->shouldSendUserConfirmation()) {
+                    $this->sendUserConfirmation($payload);
+                }
 
                 return redirect()->back()->with('success', 'Thank you for your inquiry! We\'ll contact you within 24 hours.');
             } catch (\Exception $e) {
@@ -139,6 +140,7 @@ class CustomDevelopment extends BaseController
 
         $email->setFrom('noreply@khybersoft.com', 'Khybersoft');
         $email->setTo('ahsankhan50@gmail.com'); // Change this to your email
+        $email->setReplyTo($quoteData['email'], $quoteData['name']);
         $email->setSubject('New Custom Development Quote Request');
 
         $company = !empty($quoteData['company']) ? $quoteData['company'] : '-';
@@ -166,6 +168,14 @@ class CustomDevelopment extends BaseController
         }
 
         return true;
+    }
+
+    /**
+     * Autoreplies to arbitrary form submitters can generate backscatter bounces.
+     */
+    private function shouldSendUserConfirmation(): bool
+    {
+        return (bool) env('email.sendFormAutoReply', false);
     }
 
     /**

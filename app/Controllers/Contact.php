@@ -68,8 +68,9 @@ class Contact extends BaseController
                 // Send notification email to admin
                 $this->sendAdminNotification($payload);
 
-                // Send confirmation email to user
-                $this->sendUserConfirmation($payload);
+                if ($this->shouldSendUserConfirmation()) {
+                    $this->sendUserConfirmation($payload);
+                }
 
                 return redirect()->back()->with('success', 'Thank you for your message! We\'ll get back to you soon.');
             } catch (\Exception $e) {
@@ -133,6 +134,7 @@ class Contact extends BaseController
         // Configure email settings
         $email->setFrom('noreply@khybersoft.com', 'Khybersoft');
         $email->setTo('ahsankhan50@gmail.com'); // Change this to your email
+        $email->setReplyTo($contactData['email'], $contactData['name']);
         $email->setSubject('New Contact Form Submission: ' . $contactData['subject']);
 
         // Create email body
@@ -157,6 +159,14 @@ class Contact extends BaseController
         }
 
         return true;
+    }
+
+    /**
+     * Autoreplies to arbitrary form submitters can generate backscatter bounces.
+     */
+    private function shouldSendUserConfirmation(): bool
+    {
+        return (bool) env('email.sendFormAutoReply', false);
     }
 
     /**

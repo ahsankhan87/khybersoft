@@ -22,7 +22,7 @@
                 </p>
 
                 <div class="mt-8 space-y-6">
-                    <div class="flex items-center">
+                    <!-- <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,9 +32,9 @@
                         </div>
                         <div class="ml-4">
                             <p class="text-sm font-medium text-gray-600">Email</p>
-                            <p class="text-dark">info@khybersoft.com</p>
+                            <p class="text-dark">info @ khybersoft.com</p>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -45,8 +45,8 @@
                             </div>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Phone</p>
-                            <p class="text-dark">+1 (555) 123-4567</p>
+                            <p class="text-sm font-medium text-gray-600">WhatsApp</p>
+                            <p class="text-dark">+92 345 9079213</p>
                         </div>
                     </div>
 
@@ -61,7 +61,7 @@
                         </div>
                         <div class="ml-4">
                             <p class="text-sm font-medium text-gray-600">Address</p>
-                            <p class="text-dark">123 Tech Street<br>San Francisco, CA 94103</p>
+                            <p class="text-dark">Tech Street<br>Peshawar, Pakistan</p>
                         </div>
                     </div>
                 </div>

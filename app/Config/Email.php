@@ -28,17 +28,17 @@ class Email extends BaseConfig
     /**
      * SMTP Server Hostname
      */
-    public string $SMTPHost = 'mail.khybersoft.com'; // Your domain mail server
+    public string $SMTPHost = 'mail.khybersoft.com';
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = 'noreply@khybersoft.com'; // Your domain email
+    public string $SMTPUser = 'noreply@khybersoft.com';
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = 'Noreply@2025'; // noreply@khybersoft.com password
+    public string $SMTPPass = '';
 
     /**
      * SMTP Port
@@ -118,4 +118,18 @@ class Email extends BaseConfig
      * Enable notify message from server
      */
     public bool $DSN = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->fromEmail = (string) env('email.fromEmail', $this->fromEmail);
+        $this->fromName = (string) env('email.fromName', $this->fromName);
+        $this->protocol = (string) env('email.protocol', $this->protocol);
+        $this->SMTPHost = (string) env('email.SMTPHost', $this->SMTPHost);
+        $this->SMTPUser = (string) env('email.SMTPUser', $this->SMTPUser);
+        $this->SMTPPass = (string) env('email.SMTPPass', $this->SMTPPass);
+        $this->SMTPPort = (int) env('email.SMTPPort', $this->SMTPPort);
+        $this->SMTPCrypto = (string) env('email.SMTPCrypto', $this->SMTPCrypto);
+    }
 }

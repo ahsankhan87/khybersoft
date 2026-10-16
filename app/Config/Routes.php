@@ -21,7 +21,7 @@ $routes->get('home', [Home::class, 'index']);
 $routes->get('custom-development', [CustomDevelopment::class, 'index']);
 $routes->post('custom-development/quote', [CustomDevelopment::class, 'quote'], ['filter' => 'honeypot']);
 
-$routes->post('subscribe', 'Home::subscribe');
+$routes->post('subscribe', 'Home::subscribe', ['filter' => 'honeypot']);
 // Other pages
 $routes->get('products', [Products::class, 'index']);
 $routes->get('pricing', [Pricing::class, 'index']);
