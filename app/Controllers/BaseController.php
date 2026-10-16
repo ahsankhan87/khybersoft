@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Admin\SettingModel;
+use App\Models\MenuModel;
+use App\Models\SeoMetaModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -9,50 +12,56 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class BaseController
- *
- * BaseController provides a convenient place for loading components
- * and performing functions that are needed by all your controllers.
- * Extend this class in any new controllers:
- *     class Home extends BaseController
- *
- * For security be sure to declare any new methods as protected or private.
- */
 abstract class BaseController extends Controller
 {
     /**
-     * Instance of the main Request object.
-     *
      * @var CLIRequest|IncomingRequest
      */
     protected $request;
 
-    /**
-     * An array of helpers to be loaded automatically upon
-     * class instantiation. These helpers will be available
-     * to all other controllers that extend BaseController.
-     *
-     * @var list<string>
-     */
-    protected $helpers = [];
+    protected $helpers = ['url', 'form', 'site'];
 
-    /**
-     * Be sure to declare properties for any property fetch you initialized.
-     * The creation of dynamic property is deprecated in PHP 8.2.
-     */
-    // protected $session;
-
-    /**
-     * @return void
-     */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
-        // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
-        // Preload any models, libraries, etc, here.
+        $this->session = service('session');
+    }
 
-        // E.g.: $this->session = service('session');
+    /**
+     * Global data injected into every public view rendered through renderPage().
+     */
+    protected function globals(): array
+    {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        $path = '/' . ltrim($this->request->uri->getPath() ?? '', '/');
+        $seo  = model(SeoMetaModel::class)->forPath($path);
+
+        $cached = [
+            'siteName'   => SettingModel::get('site_name', 'Khybersoft'),
+            'tagline'    => SettingModel::get('site_tagline', ''),
+            'settings'   => SettingModel::all(),
+            'navMenu'    => model(MenuModel::class)->tree('header'),
+            'footMenu'   => model(MenuModel::class)->tree('footer'),
+            'seo'        => $seo,
+            'currentPath'=> $path,
+        ];
+
+        return $cached;
+    }
+
+    /**
+     * Render a public page with the master layout.
+     */
+    protected function renderPage(string $view, array $data = []): string
+    {
+        $data += $this->globals();
+        $data['content'] = view($view, $data);
+
+        return view('layout/master', $data);
     }
 }

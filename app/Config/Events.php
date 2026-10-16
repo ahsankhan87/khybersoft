@@ -10,17 +10,6 @@ use CodeIgniter\HotReloader\HotReloader;
  * --------------------------------------------------------------------
  * Application Events
  * --------------------------------------------------------------------
- * Events allow you to tap into the execution of the program without
- * modifying or extending core files. This file provides a central
- * location to define your events, though they can always be added
- * at run-time, also, if needed.
- *
- * You create code that can execute by subscribing to events with
- * the 'on()' method. This accepts any form of callable, including
- * Closures, that will be executed when the event is triggered.
- *
- * Example:
- *      Events::on('create', [$myInstance, 'myMethod']);
  */
 
 Events::on('pre_system', static function (): void {
@@ -37,19 +26,50 @@ Events::on('pre_system', static function (): void {
     }
 
     /*
-     * --------------------------------------------------------------------
      * Debug Toolbar Listeners.
-     * --------------------------------------------------------------------
-     * If you delete, they will no longer be collected.
      */
     if (CI_DEBUG && ! is_cli()) {
         Events::on('DBQuery', 'CodeIgniter\Debug\Toolbar\Collectors\Database::collect');
         service('toolbar')->respond();
-        // Hot Reload route - for framework use on the hot reloader.
         if (ENVIRONMENT === 'development') {
             service('routes')->get('__hot-reload', static function (): void {
                 (new HotReloader())->run();
             });
         }
+    }
+});
+
+/*
+ * --------------------------------------------------------------------
+ * Homepage content bootstrap: ensure tables exist + seed defaults once.
+ * Safe for environments where migrations are not run manually.
+ * --------------------------------------------------------------------
+ */
+Events::on('post_controller_constructor', static function (): void {
+    static $done = false;
+
+    if ($done) {
+        return;
+    }
+    $done = true;
+
+    // Only bother on the public homepage.
+    $uri = trim(uri_string(), '/');
+    if ($uri !== '') {
+        return;
+    }
+
+    try {
+        $db   = \Config\Database::connect();
+        $prep = new \App\Database\Migrations\Support\HomepageBootstrap();
+        $prep->ensureTables($db);
+
+        if ((int) $db->table('product_categories')->countAllResults() === 0) {
+            $seeder = \Config\Services::seeder();
+            $seeder->setPath(APPPATH . 'Database/Seeds');
+            $seeder->call('App\Database\Seeds\HomepageSeeder');
+        }
+    } catch (\Throwable $e) {
+        log_message('error', 'Homepage bootstrap skipped: ' . $e->getMessage());
     }
 });
