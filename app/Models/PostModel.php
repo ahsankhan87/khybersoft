@@ -26,6 +26,38 @@ class PostModel extends Model
         return $q->findAll();
     }
 
+    public function latestPublished(int $limit = 3): array
+    {
+        return $this->select('posts.*, categories.name AS category_name, categories.slug AS category_slug')
+                    ->join('categories', 'categories.id = posts.category_id', 'left')
+                    ->where('posts.status', 'published')
+                    ->where('posts.published_at <=', date('Y-m-d H:i:s'))
+                    ->orderBy('posts.published_at', 'DESC')
+                    ->limit($limit)
+                    ->findAll();
+    }
+
+    public function publishedPage(int $perPage = 9): array
+    {
+        return $this->select('posts.*, categories.name AS category_name, categories.slug AS category_slug')
+                    ->join('categories', 'categories.id = posts.category_id', 'left')
+                    ->where('posts.status', 'published')
+                    ->where('posts.published_at <=', date('Y-m-d H:i:s'))
+                    ->orderBy('posts.published_at', 'DESC')
+                    ->paginate($perPage);
+    }
+
+    public function publishedBySlug(string $slug): ?array
+    {
+        return $this->select('posts.*, categories.name AS category_name, categories.slug AS category_slug, admin_users.name AS author_name')
+                    ->join('categories', 'categories.id = posts.category_id', 'left')
+                    ->join('admin_users', 'admin_users.id = posts.author_id', 'left')
+                    ->where('posts.slug', $slug)
+                    ->where('posts.status', 'published')
+                    ->where('posts.published_at <=', date('Y-m-d H:i:s'))
+                    ->first();
+    }
+
     public function withCategory(int $id): ?array
     {
         return $this->select('posts.*, categories.name AS category_name, categories.slug AS category_slug')
@@ -43,7 +75,7 @@ class PostModel extends Model
         if ($categoryId)         { $builder->where('posts.category_id', $categoryId); }
         if ($q !== '')           { $builder->groupStart()->like('posts.title', $q)->orLike('posts.excerpt', $q)->groupEnd(); }
 
-        return pager('default', $builder->countAllResults(false), 15);
+        return $builder->paginate(15);
     }
 
     public function syncTags(int $postId, array $tagIds): void
@@ -58,5 +90,19 @@ class PostModel extends Model
     public function tagIds(int $postId): array
     {
         return array_map('intval', array_column(db_connect()->table('post_tag')->where('post_id', $postId)->get()->getResultArray(), 'tag_id'));
+    }
+
+    public function tagNames(int $postId): array
+    {
+        return array_column(
+            db_connect()->table('tags')
+                ->select('tags.name')
+                ->join('post_tag', 'post_tag.tag_id = tags.id')
+                ->where('post_tag.post_id', $postId)
+                ->orderBy('tags.name')
+                ->get()
+                ->getResultArray(),
+            'name'
+        );
     }
 }

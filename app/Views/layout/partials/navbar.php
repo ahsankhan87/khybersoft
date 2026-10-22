@@ -27,7 +27,7 @@ $navMenu = $navMenu ?? [];
             <?php else: ?>
                 <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-violet font-display text-lg font-extrabold text-white shadow-soft">K</span>
                 <span class="font-display text-xl font-extrabold tracking-tight text-current">
-                    <?= esc(setting('site_name', 'Khyber')) ?><span class="bg-gradient-to-r from-primary to-violet bg-clip-text text-transparent">soft</span>
+                    <?= esc(setting('site_name', 'Khybersoft')) ?>
                 </span>
             <?php endif; ?>
         </a>

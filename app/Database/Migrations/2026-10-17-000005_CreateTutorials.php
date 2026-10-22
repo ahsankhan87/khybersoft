@@ -16,7 +16,7 @@ class CreateTutorials extends Migration
             'product_id'   => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'title'        => ['type' => 'VARCHAR', 'constraint' => 200],
             'slug'         => ['type' => 'VARCHAR', 'constraint' => 200],
-            'type'         => ['type' => 'ENUM', 'value' => ['video', 'article'], 'default' => 'video'],
+            'type'         => ['type' => 'ENUM', 'constraint' => ['video', 'article'], 'default' => 'video'],
             'video_url'    => ['type' => 'VARCHAR', 'constraint' => 500, 'null' => true], // youtube/vimeo/mp4
             'article_body' => ['type' => 'LONGTEXT', 'null' => true],
             'thumbnail'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
@@ -37,3 +37,4 @@ class CreateTutorials extends Migration
         $this->forge->dropTable('tutorials', true);
     }
 }
+

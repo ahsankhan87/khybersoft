@@ -4,7 +4,7 @@ $feats = json_decode((string) ($p['top_features'] ?? '[]'), true) ?: [];
 $href  = site_url_path('/products/' . $p['slug']);
 ?>
 <div class="group relative <?= $listMode ? 'flex flex-col sm:flex-row gap-5' : '' ?> rounded-3xl border border-slate-200/70 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-glow">
-    <div class="absolute inset-0 rounded-3xl opacity-0 transition group-hover:opacity-100 pointer-events-none" style="background:linear-gradient(135deg,rgb(79 70 229/.08),rgb(124 58 237/.08));"></div>
+    <div class="absolute inset-0 rounded-3xl opacity-0 transition group-hover:opacity-100 pointer-events-none" style="background:linear-gradient(135deg,rgb(28 143 216/.08),rgb(37 99 235/.08));"></div>
     <?php if (! empty($p['is_featured'])): ?>
         <span class="absolute right-5 top-5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600 ring-1 ring-emerald-200"><i class="fa-solid fa-star mr-1"></i>Popular</span>
     <?php endif; ?>

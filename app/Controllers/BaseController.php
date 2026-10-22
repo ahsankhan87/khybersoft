@@ -38,7 +38,7 @@ abstract class BaseController extends Controller
             return $cached;
         }
 
-        $path = '/' . ltrim($this->request->uri->getPath() ?? '', '/');
+        $path = '/' . ltrim((string) ($this->request->getUri()->getPath() ?? ''), '/');
         $seo  = model(SeoMetaModel::class)->forPath($path);
 
         $cached = [

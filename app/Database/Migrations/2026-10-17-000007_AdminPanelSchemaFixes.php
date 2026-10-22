@@ -13,8 +13,8 @@ class AdminPanelSchemaFixes extends Migration
     public function up()
     {
         $cols = fn (string $table) => array_map(
-            static fn ($f) => $f->name,
-            $this->db->listColumns($table)
+            static fn ($f) => $f['Field'],
+            $this->db->query('SHOW COLUMNS FROM ' . $this->db->escapeIdentifiers($table))->getResultArray()
         );
 
         if ($this->db->tableExists('integrations')) {
@@ -36,7 +36,7 @@ class AdminPanelSchemaFixes extends Migration
             $have = $cols('custom_development_quotes');
             $add  = [];
             if (! in_array('status', $have, true)) {
-                $add['status'] = ['type' => 'ENUM', 'value' => ['new', 'reviewing', 'quoted', 'won', 'lost'], 'default' => 'new'];
+                $add['status'] = ['type' => 'ENUM', 'constraint' => ['new', 'reviewing', 'quoted', 'won', 'lost'], 'default' => 'new'];
             }
             if (! in_array('budget_range', $have, true)) {
                 $add['budget_range'] = ['type' => 'VARCHAR', 'constraint' => 80, 'null' => true];

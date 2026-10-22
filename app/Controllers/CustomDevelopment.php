@@ -15,7 +15,7 @@ class CustomDevelopment extends BaseController
 
     public function index()
     {
-        return $this->renderPage('pages/custom_development', [
+        return $this->renderPage('custom_development', [
             'title'            => 'Custom Software Development',
             'meta_description' => 'Custom software and web application development services tailored to your specific business requirements.',
         ]);

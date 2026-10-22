@@ -19,7 +19,7 @@
             </span>
 
             <h1 class="mt-6 font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl xl:text-7xl">
-                <?= esc(str_replace('Khybersoft', '', setting('hero_title', 'Run Your Entire Business on'))) ?>
+                <?= esc(trim(str_replace('Khybersoft.', '', setting('hero_title', 'Run Your Entire Business on')))) ?>
                 <span class="bg-gradient-to-r from-indigo-300 via-violet-300 to-emerald-300 bg-clip-text text-transparent">Khybersoft.</span>
             </h1>
 

@@ -16,27 +16,27 @@ class Design extends BaseConfig
 {
     /* ---------------------------------------------------------------- Colors */
     public array $colors = [
-        // Primary solid + full ramp (legacy `primary-*` utilities used across views)
-        'primary'    => '#4F46E5',
-        'primary-50'  => '#EEF2FF',
-        'primary-100' => '#E0E7FF',
-        'primary-200' => '#C7D2FE',
-        'primary-300' => '#A5B4FC',
-        'primary-400' => '#818CF8',
-        'primary-500' => '#6366F1',
-        'primary-600' => '#4F46E5',
-        'primary-700' => '#4338CA',
-        'primary-800' => '#3730A3',
+        // Primary solid + full ramp — Kasbook sky blue (anchored on logo #55BAEE)
+        'primary'    => '#1C8FD8',
+        'primary-50'  => '#F0F9FE',
+        'primary-100' => '#E1F2FD',
+        'primary-200' => '#BDE5FB',
+        'primary-300' => '#8AD2F7',
+        'primary-400' => '#55BAEE',
+        'primary-500' => '#2EA6E8',
+        'primary-600' => '#1C8FD8',
+        'primary-700' => '#1874B0',
+        'primary-800' => '#175F8F',
         // Token aliases (new canonical names)
-        'brand'       => '#4F46E5',          // Primary solid
-        'brand-50'    => '#EEF2FF',
-        'brand-100'   => '#E0E7FF',
-        'brand-200'   => '#C7D2FE',
-        'brand-500'   => '#6366F1',
-        'brand-600'   => '#4F46E5',
-        'brand-700'   => '#4338CA',
-        'violet'      => '#7C3AED',          // Gradient end
-        'violet-100'  => '#EDE9FE',
+        'brand'       => '#1C8FD8',          // Primary solid
+        'brand-50'    => '#F0F9FE',
+        'brand-100'   => '#E1F2FD',
+        'brand-200'   => '#BDE5FB',
+        'brand-500'   => '#2EA6E8',
+        'brand-600'   => '#1C8FD8',
+        'brand-700'   => '#1874B0',
+        'secondary'   => '#2563EB',          // Legacy views: from-primary to-secondary heroes
+        'dark'        => '#111827',          // Legacy views: text-dark
         'accent'      => '#10B981',          // Emerald — trust/success
         'warning'     => '#F59E0B',          // Amber
         'danger'      => '#EF4444',
@@ -45,11 +45,42 @@ class Design extends BaseConfig
         'muted'       => '#6B7280',          // Text secondary
         'line'        => '#E5E7EB',          // Border
         'surface'     => '#F9FAFB',          // Light bg
+        // Palette overrides: legacy views hardcode indigo-*/violet-* classes.
+        // Re-map both palettes to blue shades so the whole site stays on-brand.
+        'indigo' => [
+            'DEFAULT' => '#1C8FD8',
+            '50'  => '#F0F9FE',
+            '100' => '#E1F2FD',
+            '200' => '#BDE5FB',
+            '300' => '#8AD2F7',
+            '400' => '#55BAEE',
+            '500' => '#2EA6E8',
+            '600' => '#1C8FD8',
+            '700' => '#1874B0',
+            '800' => '#175F8F',
+            '900' => '#144E78',
+            '950' => '#0D3350',
+        ],
+        // Gradient-end token: `to-violet` uses DEFAULT; `violet-*` shades use the ramp.
+        'violet' => [
+            'DEFAULT' => '#2563EB',
+            '50'  => '#EFF6FF',
+            '100' => '#DBEAFE',
+            '200' => '#BFDBFE',
+            '300' => '#93C5FD',
+            '400' => '#60A5FA',
+            '500' => '#3B82F6',
+            '600' => '#2563EB',
+            '700' => '#1D4ED8',
+            '800' => '#1E40AF',
+            '900' => '#1E3A8A',
+            '950' => '#172554',
+        ],
     ];
 
     /** Primary gradient stops (bg-gradient-to-r from-brand to-violet). */
-    public string $gradientFrom = '#4F46E5';
-    public string $gradientTo   = '#7C3AED';
+    public string $gradientFrom = '#1C8FD8';
+    public string $gradientTo   = '#2563EB';
 
     /* ----------------------------------------------------------- Typography */
     public array $fontFamily = [
@@ -112,8 +143,8 @@ class Design extends BaseConfig
         'fade-up'     => 'fade-up 0.6s cubic-bezier(0.22,1,0.36,1) both',
     ];
     public array $boxShadow = [
-        'soft' => '0 10px 40px -12px rgb(79 70 229 / 0.18)',
-        'glow' => '0 0 0 1px rgb(124 58 237 / 0.25), 0 20px 50px -12px rgb(124 58 237 / 0.35)',
+        'soft' => '0 10px 40px -12px rgb(28 143 216 / 0.18)',
+        'glow' => '0 0 0 1px rgb(37 99 235 / 0.25), 0 20px 50px -12px rgb(37 99 235 / 0.35)',
         'card' => '0 1px 3px rgb(17 24 39 / 0.06), 0 8px 24px -8px rgb(17 24 39 / 0.08)',
     ];
 

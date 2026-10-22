@@ -2,7 +2,7 @@
 /** Category page. Vars: $category,$intro,$products,$testimonials,$faqs,$breadcrumbs */
 ?>
 <section class="relative overflow-hidden bg-navy pb-16 pt-24 text-white">
-    <div class="absolute inset-0 opacity-30" style="background:radial-gradient(50rem 25rem at 30% 0%, rgb(79 70 229/.5), transparent);"></div>
+    <div class="absolute inset-0 opacity-30" style="background:radial-gradient(50rem 25rem at 30% 0%, rgb(28 143 216/.5), transparent);"></div>
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumb -->
         <nav class="mb-6 flex items-center gap-2 text-sm text-slate-400">

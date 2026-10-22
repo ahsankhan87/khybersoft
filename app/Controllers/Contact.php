@@ -10,7 +10,7 @@ class Contact extends BaseController
 
     public function index()
     {
-        return $this->renderPage('pages/contact', [
+        return $this->renderPage('contact', [
             'title'            => 'Contact Us',
             'meta_description' => 'Get in touch with Khybersoft. Questions about our products, pricing or custom development — we reply within one business day.',
         ]);

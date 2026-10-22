@@ -8,7 +8,7 @@
                 <p class="text-xs uppercase tracking-wide text-slate-400"><?= esc($menu['location']) ?> location</p>
             </div>
             <ul class="divide-y divide-slate-100">
-                <?php foreach ($menu['items'] as $item): ?>
+                <?php foreach (($menu['items'] ?? []) as $item): ?>
                     <li class="px-6 py-3">
                         <form method="post" action="<?= site_url('admin/menus/item/' . $item['id']) ?>" class="flex flex-wrap items-center gap-2">
                             <?= csrf_field() ?>

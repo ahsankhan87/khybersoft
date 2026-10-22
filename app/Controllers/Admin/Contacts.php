@@ -20,7 +20,7 @@ class Contacts extends BaseAdmin
         return $this->render('admin/contacts/index', [
             'title'  => 'Contact Messages',
             'items'  => $builder->paginate(20),
-            'pager'  => $builder->getPager(),
+            'pager'  => $builder->pager,
             'counts' => [
                 'unread'  => $model->where('status', 'unread')->countAllResults(),
                 'read'    => $model->where('status', 'read')->countAllResults(),

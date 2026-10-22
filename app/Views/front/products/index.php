@@ -4,7 +4,7 @@ $listMode = false; // toggled client-side via Alpine
 ?>
 <!-- Hero -->
 <section class="relative overflow-hidden bg-navy pb-20 pt-24 text-white">
-    <div class="absolute inset-0 opacity-30" style="background:radial-gradient(60rem 30rem at 20% 0%, rgb(79 70 229/.5), transparent), radial-gradient(50rem 25rem at 90% 30%, rgb(124 58 237/.4), transparent);"></div>
+    <div class="absolute inset-0 opacity-30" style="background:radial-gradient(60rem 30rem at 20% 0%, rgb(28 143 216/.5), transparent), radial-gradient(50rem 25rem at 90% 30%, rgb(37 99 235/.4), transparent);"></div>
     <div class="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <h1 class="font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"><?= esc($heading) ?></h1>
         <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-300"><?= esc($subheading) ?></p>

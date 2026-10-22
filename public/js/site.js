@@ -83,8 +83,8 @@
                     labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
                     datasets: [{
                         data: [42, 55, 48, 71, 66, 89, 97],
-                        borderColor: '#4F46E5',
-                        backgroundColor: 'rgba(79,70,229,0.12)',
+                        borderColor: '#55BAEE',
+                        backgroundColor: 'rgba(85,186,238,0.12)',
                         fill: true, tension: 0.45, pointRadius: 0, borderWidth: 2
                     }]
                 },

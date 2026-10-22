@@ -30,18 +30,30 @@ class SettingModel extends Model
         return ($val === null || $val === '') ? $default : (string) $val;
     }
 
-    public function set(string $key, $value, array $meta = []): void
+    public function set($key, $value = '', $escape = null, array $meta = [])
     {
+        if (is_array($escape)) {
+            $meta   = $escape;
+            $escape = null;
+        }
+
+        $data = array_merge(
+            ['key' => $key, 'value' => is_array($value) ? json_encode($value) : (string) $value],
+            $meta
+        );
+
         $existing = $this->where('key', $key)->first();
-        $data     = array_merge(['key' => $key, 'value' => is_array($value) ? json_encode($value) : (string) $value], $meta);
 
         if ($existing) {
             unset($data['key']);
-            $this->update($existing['id'], $data);
+            $this->builder()->where('key', $key)->set($data)->update();
         } else {
             $this->insert($data, false); // skip validation for programmatic sets
         }
+
         self::all(true); // bust cache
+
+        return $this;
     }
 
     public function grouped(string $group): array

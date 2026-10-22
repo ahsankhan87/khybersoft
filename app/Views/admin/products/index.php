@@ -70,7 +70,9 @@
                     <td class="px-4 py-3 text-right">
                         <a title="View page" target="_blank" href="<?= site_url('products/' . $p['slug']) ?>" class="mr-2 text-slate-400 hover:text-blue-600"><i class="fa-solid fa-up-right-from-square"></i></a>
                         <a title="Edit" href="<?= site_url('admin/products/edit/' . $p['id']) ?>" class="mr-2 text-slate-400 hover:text-blue-600"><i class="fa-solid fa-pen"></i></a>
-                        <a title="Delete" href="<?= site_url('admin/products/delete/' . $p['id']) ?>" onclick="return confirm('Delete <?= esc(addslashes($p['name'])) ?> and all its plans/features?')" class="text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash"></i></a>
+                        <form method="post" action="<?= site_url('admin/products/delete/' . $p['id']) ?>" class="inline" onsubmit="return confirm('Delete <?= esc(addslashes($p['name'])) ?> and all its plans/features?')">
+                            <?= csrf_field() ?><button title="Delete" class="text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach; ?>

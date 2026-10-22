@@ -25,15 +25,15 @@ class HomepageSeeder extends Seeder
         $defaults = [
             // announcement bar
             'announcement_enabled' => '1',
-            'announcement_text'    => '🎉 New: Khybersoft POS v3.0 launched — 40% faster, offline mode, WhatsApp receipts.',
+            'announcement_text'    => 'ًںژ‰ New: Khybersoft POS v3.0 launched â€” 40% faster, offline mode, WhatsApp receipts.',
             'announcement_link'    => '/products/pos',
             // hero
-            'hero_eyebrow'      => '⚡ Trusted by 500+ businesses in Pakistan & beyond',
+            'hero_eyebrow'      => 'âڑ، Trusted by 500+ businesses in Pakistan & beyond',
             'hero_title'        => 'Run Your Entire Business on Khybersoft.',
-            'hero_subtitle'     => 'POS, Accounting, School Management, Plot Management, HRM — one unified platform. Built for growing businesses, priced for everyone.',
+            'hero_subtitle'     => 'POS, Accounting, School Management, Plot Management, HRM â€” one unified platform. Built for growing businesses, priced for everyone.',
             'hero_cta_primary'  => 'Start Free Trial',
             'hero_cta_secondary'=> 'Watch 2-min Demo',
-            'hero_trust_micro'  => 'No credit card • 14-day trial • Free setup',
+            'hero_trust_micro'  => 'No credit card â€¢ 14-day trial â€¢ Free setup',
             'hero_rating_text'  => '4.9/5 from 200+ reviews',
             'hero_video_url'    => 'https://www.youtube.com/watch?v=khybersoft-demo',
             // trust bar
@@ -59,22 +59,22 @@ class HomepageSeeder extends Seeder
             'why_2_icon' => 'fa-solid fa-cubes',             'why_2_title' => 'All-in-one platform',
             'why_2_text' => 'Replace 5 disconnected tools with one login. Your data finally lives in one place.',
             'why_3_icon' => 'fa-solid fa-headset',           'why_3_title' => 'Local support, global standards',
-            'why_3_text' => '24/7 help in English & Urdu from real engineers based in Peshawar — not bots.',
+            'why_3_text' => '24/7 help in English & Urdu from real engineers based in Peshawar â€” not bots.',
             // deep dive tabs
             'deepdive_tabs' => json_encode([
-                ['name' => 'Invoicing',    'icon' => 'fa-solid fa-file-invoice-dollar', 'title' => 'Professional invoices in 15 seconds', 'points' => ['Auto-numbering, branding & GST/PRA fields', 'Recurring invoices + payment reminders', 'WhatsApp & email delivery with read receipts'], 'image' => 'uploads/screenshots/invoicing.png'],
-                ['name' => 'Inventory',    'icon' => 'fa-solid fa-boxes-stacked',       'title' => 'Stock you can actually trust',         'points' => ['Real-time stock across all branches', 'Low-stock alerts & auto purchase orders', 'Batch, expiry & barcode support'], 'image' => 'uploads/screenshots/inventory.png'],
-                ['name' => 'Reports',      'icon' => 'fa-solid fa-chart-line',          'title' => 'Board-ready reports, instantly',       'points' => ['P&L, balance sheet & cash flow', 'Sales analytics by item, branch, cashier', 'Export to Excel / PDF on schedule'], 'image' => 'uploads/screenshots/reports.png'],
-                ['name' => 'Multi-branch', 'icon' => 'fa-solid fa-network-wired',       'title' => 'One dashboard for every branch',       'points' => ['Role-based access per location', 'Central pricing & inter-branch transfers', 'Consolidated group reporting'], 'image' => 'uploads/screenshots/branches.png'],
-                ['name' => 'Offline mode', 'icon' => 'fa-solid fa-wifi',                'title' => 'Sales never stop when internet does',  'points' => ['POS keeps ringing offline', 'Auto-sync when connection returns', 'Zero data loss guarantee'], 'image' => 'uploads/screenshots/offline.png'],
-                ['name' => 'Mobile app',   'icon' => 'fa-solid fa-mobile-screen',       'title' => 'Your business in your pocket',         'points' => ['Live sales & alerts on your phone', 'Approve purchases on the go', 'Owner analytics widget'], 'image' => 'uploads/screenshots/mobile.png'],
+                ['name' => 'Invoicing',    'icon' => 'fa-solid fa-file-invoice-dollar', 'title' => 'Professional invoices in 15 seconds', 'points' => ['Auto-numbering, branding & GST/PRA fields', 'Recurring invoices + payment reminders', 'WhatsApp & email delivery with read receipts'], 'image' => ''],
+                ['name' => 'Inventory',    'icon' => 'fa-solid fa-boxes-stacked',       'title' => 'Stock you can actually trust',         'points' => ['Real-time stock across all branches', 'Low-stock alerts & auto purchase orders', 'Batch, expiry & barcode support'], 'image' => ''],
+                ['name' => 'Reports',      'icon' => 'fa-solid fa-chart-line',          'title' => 'Board-ready reports, instantly',       'points' => ['P&L, balance sheet & cash flow', 'Sales analytics by item, branch, cashier', 'Export to Excel / PDF on schedule'], 'image' => ''],
+                ['name' => 'Multi-branch', 'icon' => 'fa-solid fa-network-wired',       'title' => 'One dashboard for every branch',       'points' => ['Role-based access per location', 'Central pricing & inter-branch transfers', 'Consolidated group reporting'], 'image' => ''],
+                ['name' => 'Offline mode', 'icon' => 'fa-solid fa-wifi',                'title' => 'Sales never stop when internet does',  'points' => ['POS keeps ringing offline', 'Auto-sync when connection returns', 'Zero data loss guarantee'], 'image' => ''],
+                ['name' => 'Mobile app',   'icon' => 'fa-solid fa-mobile-screen',       'title' => 'Your business in your pocket',         'points' => ['Live sales & alerts on your phone', 'Approve purchases on the go', 'Owner analytics widget'], 'image' => ''],
             ]),
             // final CTA
             'cta_heading'    => 'Ready to transform your business?',
             'cta_sub'        => 'Join 500+ growing businesses running on Khybersoft.',
             'whatsapp_number'=> '923001234567',
             // footer
-            'footer_tagline' => 'Business software that just works. Made with ❤️ in Pakistan.',
+            'footer_tagline' => 'Business software that just works. Made with â‌¤ï¸ڈ in Pakistan.',
         ];
 
         $db = \Config\Database::connect();
@@ -99,27 +99,27 @@ class HomepageSeeder extends Seeder
         }
 
         $cats = [
-            ['Retail & POS',   'retail-pos',   'fa-solid fa-store',              [
-                ['Khybersoft POS', 'pos', 'Sell faster — online, offline, anywhere.', 'fa-solid fa-cash-register', 'from-indigo-500 to-violet-500', ['Offline mode', 'WhatsApp receipts', 'Barcode scanning'], 1],
-                ['Retail Pro Suite','retail-pro','Multi-store retail command center.','fa-solid fa-shop',['Multi-branch sync','Loyalty programs','Expiry management'],0],
+            ['Retail & POS', 'retail-pos', 'fa-solid fa-store', [
+                ['Khybersoft POS', 'pos', 'Sell faster â€” online, offline, anywhere.', 'fa-solid fa-cash-register', 'from-indigo-500 to-violet-500', ['Offline mode', 'WhatsApp receipts', 'Barcode scanning'], 1],
+                ['Retail Pro Suite', 'retail-pro', 'Multi-store retail command center.', 'fa-solid fa-shop', 'from-sky-500 to-cyan-500', ['Multi-branch sync', 'Loyalty programs', 'Expiry management'], 0],
             ]],
-            ['Accounting',     'accounting',   'fa-solid fa-calculator',         [
-                ['Khybersoft Books', 'books', 'Accounting that balances itself.', 'fa-solid fa-book-open', ['Auto bank feeds', 'GST/PRA returns', '1-click P&L'], 1],
-                ['Invoice Cloud', 'invoice-cloud', 'Get paid 3x faster with smart invoicing.', 'fa-solid fa-file-invoice-dollar', ['Recurring billing', 'Payment links', 'Reminders'], 0],
+            ['Accounting', 'accounting', 'fa-solid fa-calculator', [
+                ['Khybersoft Books', 'books', 'Accounting that balances itself.', 'fa-solid fa-book-open', 'from-cyan-500 to-teal-500', ['Auto bank feeds', 'GST/PRA returns', '1-click P&L'], 1],
+                ['Invoice Cloud', 'invoice-cloud', 'Get paid 3x faster with smart invoicing.', 'fa-solid fa-file-invoice-dollar', 'from-emerald-500 to-green-500', ['Recurring billing', 'Payment links', 'Reminders'], 0],
             ]],
-            ['Education',      'education',    'fa-solid fa-graduation-cap',     [
-                ['School Manager', 'school-manager', 'The complete school ERP.', 'fa-solid fa-school', ['Fees & attendance', 'Report cards', 'Parent portal'], 1],
-                ['College ERP', 'college-erp', 'Higher-ed administration made easy.', 'fa-solid fa-user-graduate', ['Admissions', 'Result gazette', 'Timetable'], 0],
+            ['Education', 'education', 'fa-solid fa-graduation-cap', [
+                ['School Manager', 'school-manager', 'The complete school ERP.', 'fa-solid fa-school', 'from-violet-500 to-purple-500', ['Fees & attendance', 'Report cards', 'Parent portal'], 1],
+                ['College ERP', 'college-erp', 'Higher-ed administration made easy.', 'fa-solid fa-user-graduate', 'from-fuchsia-500 to-pink-500', ['Admissions', 'Result gazette', 'Timetable'], 0],
             ]],
-            ['Real Estate',    'real-estate',  'fa-solid fa-building',           [
-                ['Plot Manager', 'plot-manager', 'Files, plots & installments under control.', 'fa-solid fa-map', ['File tracking', 'Installment plans', 'Transfer records'], 1],
-                ['Society CRM', 'society-crm', 'Community billing & facility ops.', 'fa-solid fa-people-group', ['Maintenance bills', 'Gate entries', 'Complaints'], 0],
+            ['Real Estate', 'real-estate', 'fa-solid fa-building', [
+                ['Plot Manager', 'plot-manager', 'Files, plots & installments under control.', 'fa-solid fa-map', 'from-amber-500 to-orange-500', ['File tracking', 'Installment plans', 'Transfer records'], 1],
+                ['Society CRM', 'society-crm', 'Community billing & facility ops.', 'fa-solid fa-people-group', 'from-yellow-500 to-amber-500', ['Maintenance bills', 'Gate entries', 'Complaints'], 0],
             ]],
-            ['HR & Payroll',   'hr-payroll',   'fa-solid fa-users-gear',         [
-                ['HR Hub', 'hr-hub', 'From hiring to payslip, automated.', 'fa-solid fa-id-card-clip', ['Biometric attendance', 'Payroll runs', 'Leave workflow'], 1],
+            ['HR & Payroll', 'hr-payroll', 'fa-solid fa-users-gear', [
+                ['HR Hub', 'hr-hub', 'From hiring to payslip, automated.', 'fa-solid fa-id-card-clip', 'from-rose-500 to-pink-500', ['Biometric attendance', 'Payroll runs', 'Leave workflow'], 1],
             ]],
-            ['Custom',         'custom',       'fa-solid fa-wand-magic-sparkles',[
-                ['Custom Development', 'custom-development', 'Bespoke software, built to your workflow.', 'fa-solid fa-code', ['Discovery workshop', 'Agile delivery', 'Source ownership'], 0],
+            ['Custom', 'custom', 'fa-solid fa-wand-magic-sparkles', [
+                ['Custom Development', 'custom-development', 'Bespoke software, built to your workflow.', 'fa-solid fa-code', 'from-slate-500 to-slate-700', ['Discovery workshop', 'Agile delivery', 'Source ownership'], 0],
             ]],
         ];
 
@@ -129,9 +129,10 @@ class HomepageSeeder extends Seeder
                 'sort_order' => $i, 'is_active' => 1,
                 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'),
             ]);
-            $catId = $db->table('product_categories')->getInsertID();
+            $catId = $db->insertID();
 
-            foreach ($products as $j => [$pname, $pslug, $tagline, $icon, $color, $features, $featured]) {
+            foreach ($products as $j => $productRow) {
+                [$pname, $pslug, $tagline, $icon, $color, $features, $featured] = $productRow;
                 $db->table('products')->insert([
                     'category_id' => $catId, 'name' => $pname, 'slug' => $pslug,
                     'tagline' => $tagline, 'icon' => $icon, 'color' => $color,
@@ -171,7 +172,7 @@ class HomepageSeeder extends Seeder
             ['We replaced three separate systems with Khybersoft. Month-end closing went from 6 days to 4 hours. The offline POS alone paid for the year.', 'Imran Wali', 'Owner', 'Wali Department Store', 5, 1],
             ['Finally software my staff actually enjoys using. Training took one afternoon. Support answers in Urdu within minutes.', 'Sobia Khan', 'Finance Manager', 'Green Valley Schools', 5, 1],
             ['Plot files, installments and transfers used to live in almirahs. Now everything is one search away. Our recovery rate jumped 30%.', 'Asad Ullah', 'Director', 'Battigram Housing', 5, 1],
-            ['The WhatsApp receipts feature is genius — customers love it and our returns dropped because every sale has proof.', 'Nadia Yasmin', 'Operations Head', 'Zara Boutique Chain', 5, 0],
+            ['The WhatsApp receipts feature is genius â€” customers love it and our returns dropped because every sale has proof.', 'Nadia Yasmin', 'Operations Head', 'Zara Boutique Chain', 5, 0],
             ['Bank reconciliation that took my accountant two full days now happens automatically while she has chai.', 'Faisal Mehmood', 'CEO', 'Metro Foods Pvt', 5, 0],
             ['We run 7 branches on one dashboard. Consolidated reports that used to take a week now take one click.', 'Haroon Rashid', 'Group Controller', 'Seven Stars Retail', 5, 0],
         ];
@@ -241,3 +242,4 @@ class HomepageSeeder extends Seeder
         }
     }
 }
+

@@ -11,31 +11,28 @@ class News extends BaseController
     {
         $model = model(NewsModel::class);
 
-        $data = [
-            'news_list' => $model->getNews(),
-            'title'     => 'News archive',
-        ];
-
-        return view('templates/header', $data)
-            . view('news/index')
-            . view('templates/footer');
+        return $this->renderPage('news/index', [
+            'news_list'        => $model->getNews(),
+            'title'            => 'News archive',
+            'meta_description' => 'Latest news and updates from ' . setting('site_name', 'Khybersoft'),
+        ]);
     }
 
     public function show($slug = null)
     {
         $model = model(NewsModel::class);
 
-        $data['news'] = $model->getNews($slug);
+        $news = $model->getNews($slug);
 
-        if ($data['news'] === null) {
+        if ($news === null) {
             throw new PageNotFoundException('Cannot find the news item: ' . $slug);
         }
 
-        $data['title'] = $data['news']['title'];
-
-        return view('templates/header', $data)
-            . view('news/view')
-            . view('templates/footer');
+        return $this->renderPage('news/view', [
+            'news'             => $news,
+            'title'            => $news['title'],
+            'meta_description' => mb_substr(strip_tags((string) $news['body']), 0, 160),
+        ]);
     }
 
     public function new()

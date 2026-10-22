@@ -21,7 +21,7 @@ class AdminPanelFull extends Migration
             'path'        => ['type' => 'VARCHAR', 'constraint' => 500],           // relative: uploads/2026/10/x.webp
             'thumb_path'  => ['type' => 'VARCHAR', 'constraint' => 500, 'null' => true],
             'mime'        => ['type' => 'VARCHAR', 'constraint' => 100],
-            'kind'        => ['type' => 'ENUM', 'value' => ['image', 'video', 'document'], 'default' => 'image'],
+            'kind'        => ['type' => 'ENUM', 'constraint' => ['image', 'video', 'document'], 'default' => 'image'],
             'size_kb'     => ['type' => 'INT', 'constraint' => 11, 'default' => 0],
             'width'       => ['type' => 'SMALLINT', 'constraint' => 6, 'null' => true],
             'height'      => ['type' => 'SMALLINT', 'constraint' => 6, 'null' => true],
@@ -70,7 +70,7 @@ class AdminPanelFull extends Migration
             'read_minutes'  => ['type' => 'SMALLINT', 'constraint' => 4, 'default' => 5],
             'view_count'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'default' => 0],
             'is_featured'   => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'status'        => ['type' => 'ENUM', 'value' => ['draft', 'published', 'scheduled', 'archived'], 'default' => 'draft'],
+            'status'        => ['type' => 'ENUM', 'constraint' => ['draft', 'published', 'scheduled', 'archived'], 'default' => 'draft'],
             'published_at'  => ['type' => 'DATETIME', 'null' => true],
             'meta_title'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'meta_desc'     => ['type' => 'VARCHAR', 'constraint' => 500, 'null' => true],
@@ -98,7 +98,7 @@ class AdminPanelFull extends Migration
             'name'      => ['type' => 'VARCHAR', 'constraint' => 120],
             'email'     => ['type' => 'VARCHAR', 'constraint' => 190],
             'content'   => ['type' => 'TEXT'],
-            'status'    => ['type' => 'ENUM', 'value' => ['pending', 'approved', 'spam'], 'default' => 'pending'],
+            'status'    => ['type' => 'ENUM', 'constraint' => ['pending', 'approved', 'spam'], 'default' => 'pending'],
             'ip_hash'   => ['type' => 'VARCHAR', 'constraint' => 64, 'null' => true],
             'created_at'=> ['type' => 'DATETIME', 'null' => true],
             'updated_at'=> ['type' => 'DATETIME', 'null' => true],
@@ -120,10 +120,13 @@ class AdminPanelFull extends Migration
         $this->forge->createTable('tutorial_categories', true);
 
         // add category link to existing tutorials table
-        if (! array_key_exists('category_id', $this->db->getFieldNames('tutorials') ? array_combine($this->db->getFieldNames('tutorials'), []) : [])) {
-            $this->forge->addColumn('tutorials', [
-                'category_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true, 'after' => 'id'],
-            ]);
+        if ($this->db->tableExists('tutorials')) {
+            $tutorialColumns = $this->db->getFieldNames('tutorials');
+            if (! in_array('category_id', $tutorialColumns, true)) {
+                $this->forge->addColumn('tutorials', [
+                    'category_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+                ]);
+            }
         }
 
         // ---------------------------------------------------------------- faqs
@@ -180,7 +183,7 @@ class AdminPanelFull extends Migration
             'slug'         => ['type' => 'VARCHAR', 'constraint' => 150],
             'department'   => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
             'location'     => ['type' => 'VARCHAR', 'constraint' => 120, 'null' => true],
-            'type'         => ['type' => 'ENUM', 'value' => ['full-time', 'part-time', 'contract', 'remote', 'internship'], 'default' => 'full-time'],
+            'type'         => ['type' => 'ENUM', 'constraint' => ['full-time', 'part-time', 'contract', 'remote', 'internship'], 'default' => 'full-time'],
             'description'  => ['type' => 'LONGTEXT', 'null' => true],
             'salary_range' => ['type' => 'VARCHAR', 'constraint' => 80, 'null' => true],
             'is_open'      => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 1],
@@ -201,7 +204,7 @@ class AdminPanelFull extends Migration
             'portfolio'  => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'cover_note' => ['type' => 'TEXT', 'null' => true],
             'cv_path'    => ['type' => 'VARCHAR', 'constraint' => 500, 'null' => true],
-            'status'     => ['type' => 'ENUM', 'value' => ['new', 'reviewing', 'interview', 'hired', 'rejected'], 'default' => 'new'],
+            'status'     => ['type' => 'ENUM', 'constraint' => ['new', 'reviewing', 'interview', 'hired', 'rejected'], 'default' => 'new'],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
@@ -243,7 +246,7 @@ class AdminPanelFull extends Migration
         $this->forge->addField([
             'user_id'     => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'user_name'   => ['type' => 'VARCHAR', 'constraint' => 120, 'null' => true],
-            'action'      => ['type' => 'VARCHAR', 'constraint' => 40],            // create|update|delete|login|logout|upload…
+            'action'      => ['type' => 'VARCHAR', 'constraint' => 40],            // create|update|delete|login|logout|uploadâ€¦
             'module'      => ['type' => 'VARCHAR', 'constraint' => 60],
             'target'      => ['type' => 'VARCHAR', 'constraint' => 190, 'null' => true],
             'description' => ['type' => 'VARCHAR', 'constraint' => 500, 'null' => true],
@@ -270,7 +273,7 @@ class AdminPanelFull extends Migration
         // ------------------------------------------------------ spam blocklists
         $this->forge->addKey('id', true);
         $this->forge->addField([
-            'rule_type' => ['type' => 'ENUM', 'value' => ['ip', 'keyword', 'email_domain'], 'default' => 'keyword'],
+            'rule_type' => ['type' => 'ENUM', 'constraint' => ['ip', 'keyword', 'email_domain'], 'default' => 'keyword'],
             'value'     => ['type' => 'VARCHAR', 'constraint' => 190],
             'notes'     => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'is_active' => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 1],
@@ -365,3 +368,4 @@ class AdminPanelFull extends Migration
         }
     }
 }
+

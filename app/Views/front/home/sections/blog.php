@@ -16,10 +16,10 @@
             <?php foreach ($latestPosts as $bi => $post): ?>
                 <article class="group overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-soft"
                          data-aos="fade-up" data-aos-delay="<?= $bi * 120 ?>">
-                    <a href="<?= site_url_path('/blog/' . urlencode((string) $post['slug'])) ?>">
+                    <a href="<?= site_url_path('/blog/' . urlencode((string) ($post['slug'] ?? ''))) ?>">
                         <div class="aspect-[16/9] overflow-hidden bg-gradient-to-br from-indigo-100 to-violet-100">
-                            <?php if (! empty($post['image'])): ?>
-                                <img src="<?= esc(media_url($post['image'])) ?>" alt="" loading="lazy"
+                            <?php if (! empty($post['featured_image'])): ?>
+                                <img src="<?= esc(media_url($post['featured_image'])) ?>" alt="" loading="lazy"
                                      class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
                             <?php else: ?>
                                 <div class="flex h-full items-center justify-center"><i class="fa-solid fa-newspaper text-4xl text-indigo-200"></i></div>
@@ -27,11 +27,11 @@
                         </div>
                         <div class="p-7">
                             <div class="flex items-center gap-3 text-xs">
-                                <span class="rounded-full bg-indigo-50 px-3 py-1 font-bold uppercase tracking-wide text-primary"><?= esc($post['category'] ?: 'News') ?></span>
-                                <time class="text-slate-400"><?= date('M j, Y', strtotime((string) $post['created_at'])) ?></time>
+                                <span class="rounded-full bg-indigo-50 px-3 py-1 font-bold uppercase tracking-wide text-primary"><?= esc($post['category_name'] ?? 'Article') ?></span>
+                                <time class="text-slate-400"><?= date('M j, Y', strtotime((string) ($post['published_at'] ?? $post['created_at'] ?? 'now'))) ?></time>
                             </div>
-                            <h3 class="mt-3 line-clamp-2 font-display text-lg font-bold text-slate-900 transition group-hover:text-primary"><?= esc($post['title']) ?></h3>
-                            <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-500"><?= esc(strip_tags((string) $post['body'])) ?></p>
+                            <h3 class="mt-3 line-clamp-2 font-display text-lg font-bold text-slate-900 transition group-hover:text-primary"><?= esc($post['title'] ?? '') ?></h3>
+                            <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-500"><?= esc(strip_tags((string) (($post['excerpt'] ?? '') ?: ($post['content'] ?? '')))) ?></p>
                         </div>
                     </a>
                 </article>

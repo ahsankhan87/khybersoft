@@ -13,4 +13,14 @@ class MenuItemModel extends Model
         'menu_id' => 'required|integer',
         'label'   => 'required|max_length[100]',
     ];
+
+    public function itemsFor(int $menuId): array
+    {
+        return $this->where('menu_id', $menuId)->orderBy('sort_order')->findAll();
+    }
+
+    public function treeFor(int $menuId): array
+    {
+        return $this->itemsFor($menuId);
+    }
 }

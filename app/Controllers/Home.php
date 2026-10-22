@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Concerns\HandlesFormSubmissions;
 use App\Models\ClientModel;
 use App\Models\IntegrationModel;
-use App\Models\NewsModel;
+use App\Models\PostModel;
 use App\Models\ProductModel;
 use App\Models\SuccessStoryModel;
 use App\Models\TestimonialModel;
@@ -18,8 +18,6 @@ class Home extends BaseController
 
     public function index()
     {
-        $db = \Config\Database::connect();
-
         // Deep-dive tabs come from a JSON setting (editable in admin → Settings → homepage)
         $tabs = json_decode(setting('deepdive_tabs', '[]'), true) ?: [];
 
@@ -33,7 +31,7 @@ class Home extends BaseController
             'storyCount'       => model(SuccessStoryModel::class)->countPublished(),
             'integrations'     => model(IntegrationModel::class)->active(12),
             'deepDiveTabs'     => $tabs,
-            'latestPosts'      => $db->table('news')->orderBy('id', 'DESC')->limit(3)->get()->getResultArray(),
+            'latestPosts'      => model(PostModel::class)->latestPublished(3),
             'plans'            => $this->pricingPreview(),
             'jsonLd'           => $this->homepageSchema(),
         ];

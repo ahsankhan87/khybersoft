@@ -12,7 +12,7 @@ class Testimonials extends BaseAdmin
 
     protected string $module     = 'testimonials';
     protected string $modelClass = TestimonialModel::class;
-    protected array  $fields     = ['quote', 'name', 'role', 'company', 'photo', 'company_logo', 'product_id', 'rating', 'source', 'sort_order'];
+    protected array  $fields     = ['quote', 'name', 'role', 'company', 'photo', 'company_logo', 'product_id', 'rating', 'source', 'sort_order', 'status'];
     protected array  $booleans   = ['is_featured'];
     protected array  $rules      = ['name' => 'required|max_length[120]', 'quote' => 'required|min_length[10]'];
 
@@ -46,12 +46,12 @@ class Testimonials extends BaseAdmin
 
     public function store()
     {
-        return $this->save(null);
+        return $this->persist(null);
     }
 
     public function update(int $id)
     {
-        return $this->save($id);
+        return $this->persist($id);
     }
 
     public function delete(int $id)
@@ -61,7 +61,7 @@ class Testimonials extends BaseAdmin
 
     public function toggle(int $id)
     {
-        return $this->toggleActive($id);
+        return $this->toggleActive($id, 'is_featured');
     }
 
     /** CSV import: name,role,company,quote,rating */

@@ -28,7 +28,7 @@ class Auth extends Controller
     public function attemptLogin()
     {
         $email = strtolower(trim((string) $this->request->getPost('email')));
-        $ip    = service('request')->IPAddress();
+        $ip    = $this->request->getIPAddress();
         $attempts = new LoginAttemptModel();
 
         // Throttle: 5 failures → 15-minute lockout per IP
@@ -37,7 +37,7 @@ class Auth extends Controller
         }
 
         $user = (new AdminUserModel())->where('email', $email)->first();
-        $ok   = $user && $user['status'] === 'active' && password_verify((string) $this->request->getPost('password'), $user['password_hash']);
+        $ok   = $user && (int) ($user['is_active'] ?? 0) === 1 && password_verify((string) $this->request->getPost('password'), $user['password_hash']);
 
         $attempts->insert(['email' => $email, 'ip' => $ip, 'success' => $ok ? 1 : 0, 'user_agent' => mb_substr((string) $this->request->getUserAgent()->getAgentString(), 0, 255)]);
 
@@ -130,23 +130,45 @@ class Auth extends Controller
     {
         $email = strtolower(trim((string) $this->request->getPost('email')));
         $user  = (new AdminUserModel())->where('email', $email)->first();
+        $local = $this->requestIsLocalhost();
+        $localResetLink = null;
         // Always show success to avoid user enumeration.
         if ($user) {
             $token = (new PasswordResetModel())->issue($email);
             $link  = base_url('/admin/reset-password/' . $token);
-            try {
-                service('email')->initialize()
-                    ->setFrom([setting('noreply_email') ?: 'no-reply@khybersoft.com' => setting('site_name') ?: 'Khybersoft'])
-                    ->setTo($email)
-                    ->setSubject('Reset your Khybersoft admin password')
-                    ->setMessage("Someone requested a password reset for {$email}.\n\nUse this link within 1 hour:\n{$link}\n\nIf you did not request this, ignore this email.")
-                    ->send();
-            } catch (\Throwable $e) {
-                log_message('error', 'Password reset mail failed: ' . $e->getMessage());
+
+            if ($local) {
+                $localResetLink = $link;
+            } else {
+                try {
+                    service('email')->initialize()
+                        ->setFrom([setting('noreply_email') ?: 'no-reply@khybersoft.com' => setting('site_name') ?: 'Khybersoft'])
+                        ->setTo($email)
+                        ->setSubject('Reset your Khybersoft admin password')
+                        ->setMessage("Someone requested a password reset for {$email}.\n\nUse this link within 1 hour:\n{$link}\n\nIf you did not request this, ignore this email.")
+                        ->send();
+                } catch (\Throwable $e) {
+                    log_message('error', 'Password reset mail failed: ' . $e->getMessage());
+                }
             }
         }
 
-        return redirect()->to('/admin/login/forgot')->with('success', 'If that email exists, a reset link has been sent.');
+        $redirect = redirect()->to('/admin/login/forgot')->with('success', $local
+            ? 'If that email exists, a reset link is shown below.'
+            : 'If that email exists, a reset link has been sent.');
+
+        if ($localResetLink !== null) {
+            $redirect->with('local_reset_link', $localResetLink);
+        }
+
+        return $redirect;
+    }
+
+    private function requestIsLocalhost(): bool
+    {
+        $host = strtolower((string) $this->request->getUri()->getHost());
+
+        return in_array($host, ['localhost', '127.0.0.1', '::1'], true);
     }
 
     public function resetForm(string $token)
@@ -166,13 +188,15 @@ class Auth extends Controller
         if (! $reset) {
             return redirect()->to('/admin/login/forgot')->with('error', 'Reset link is invalid or expired.');
         }
-        if (! $this->validate(['password' => 'required|strong_password[minLength][8]'])) {
+        if (! $this->validate(['password' => 'required|min_length[8]'])) {
             return redirect()->back()->with('errors', $this->validator->getErrors());
         }
         $model = new AdminUserModel();
         $user  = $model->where('email', $reset['email'])->first();
         if ($user) {
-            $model->update($user['id'], ['password' => $this->request->getPost('password')]);
+            $model->update($user['id'], [
+                'password_hash' => password_hash((string) $this->request->getPost('password'), PASSWORD_DEFAULT),
+            ]);
             (new PasswordResetModel())->consume((int) $reset['id']);
             ActivityLogModel::record('reset', 'auth', 'Password reset completed', $reset['email']);
         }

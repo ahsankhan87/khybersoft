@@ -21,7 +21,7 @@ class DemoRequests extends BaseAdmin
         return $this->render('admin/demos/index', [
             'title'    => 'Demo Requests',
             'items'    => $builder->paginate(20),
-            'pager'    => $builder->getPager(),
+            'pager'    => $builder->pager,
             'counts'   => [
                 'pending'  => $model->where('status', 'pending')->countAllResults(),
                 'scheduled'=> $model->where('status', 'scheduled')->countAllResults(),

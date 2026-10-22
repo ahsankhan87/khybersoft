@@ -17,18 +17,31 @@ class Subscribers extends BaseAdmin
 
         return $this->render('admin/subscribers/index', [
             'title'   => 'Newsletter Subscribers',
-            'items'   => $builder->paginate(50),
-            'pager'   => $builder->getPager(),
+            'subs'    => $builder->paginate(50),
+            'pager'   => $builder->pager,
             'total'   => $model->countAllResults(),
-            'verified'=> $model->where('status', 'verified')->countAllResults(),
+            'confirmed' => (new SubscriberModel())->where('status', 'confirmed')->countAllResults(),
             'q'       => $q,
         ]);
+    }
+
+    public function setStatus(int $id)
+    {
+        if ($resp = $this->guard('subscribers')) { return $resp; }
+        $status = (string) $this->request->getPost('status');
+        if (! in_array($status, ['pending', 'confirmed', 'unsubscribed'], true)) {
+            return redirect()->back()->with('error', 'Invalid subscriber status.');
+        }
+        (new SubscriberModel())->update($id, ['status' => $status]);
+        ActivityLogModel::record('status', 'subscribers', "Subscriber #{$id} set to {$status}");
+
+        return redirect()->back()->with('success', 'Subscriber status updated.');
     }
 
     public function exportCsv()
     {
         if ($resp = $this->guard('subscribers')) { return $resp; }
-        $rows  = (new SubscriberModel())->where('status', 'verified')->orderBy('id')->findAll();
+        $rows  = (new SubscriberModel())->where('status', 'confirmed')->orderBy('id')->findAll();
         $csv   = "email,status,source,created_at\n";
         foreach ($rows as $r) {
             $csv .= '"' . str_replace('"', '""', $r['email']) . '",' . $r['status'] . ',' . ($r['source'] ?? '') . ',' . $r['created_at'] . "\n";

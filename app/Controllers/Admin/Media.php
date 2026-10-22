@@ -16,14 +16,19 @@ class Media extends BaseAdmin
 
     public function index()
     {
+        $filters = [
+            'kind'   => (string) $this->request->getGet('kind'),
+            'folder' => (string) $this->request->getGet('folder'),
+            'q'      => (string) $this->request->getGet('q'),
+        ];
+
         return $this->render('admin/media/index', [
             'title'   => 'Media Library',
-            'items'   => (new MediaModel())->listFiltered([
-                'kind'   => (string) $this->request->getGet('kind'),
-                'folder' => (string) $this->request->getGet('folder'),
-                'q'      => (string) $this->request->getGet('q'),
-            ]),
+            'items'   => (new MediaModel())->listFiltered($filters),
             'folders' => (new MediaModel())->folders(),
+            'kindFilter' => $filters['kind'],
+            'folderFilter' => $filters['folder'],
+            'q' => $filters['q'],
         ]);
     }
 
@@ -104,7 +109,7 @@ class Media extends BaseAdmin
 
     public function update(int $id)
     {
-        return $this->save($id);
+        return $this->persist($id);
     }
 
     public function delete(int $id)

@@ -52,5 +52,6 @@
         </form>
         <p class="mt-6 text-center text-xs text-slate-500"><a href="<?= base_url('/') ?>" class="hover:text-slate-300">← Back to website</a></p>
     </div>
+    <p class="mt-4 text-center text-sm text-slate-400"><a href="<?= site_url('admin/login/forgot') ?>" class="text-blue-400 hover:text-blue-300">Forgot your password?</a></p>
 </body>
 </html>

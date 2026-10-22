@@ -11,6 +11,17 @@ use App\Models\Admin\RoleModel;
  */
 abstract class BaseAdmin extends BaseController
 {
+    protected function guard(?string $permission = null)
+    {
+        $permission ??= 'dashboard';
+        $user = (new AdminUserModel())->withRole((int) session()->get('admin_id'));
+        if (! (new RoleModel())->can($user['role_slug'] ?? null, $permission)) {
+            return redirect()->to('/admin')->with('error', 'You do not have permission to access that area.');
+        }
+
+        return null;
+    }
+
     protected function chrome(array $data = []): array
     {
         $user = (new AdminUserModel())->withRole((int) session()->get('admin_id'));

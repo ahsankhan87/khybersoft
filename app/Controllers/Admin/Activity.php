@@ -18,7 +18,7 @@ class Activity extends BaseAdmin
         return $this->render('admin/activity/index', [
             'title'   => 'Activity Log',
             'logs'    => $builder->paginate(30),
-            'pager'   => $builder->getPager(),
+            'pager'   => $builder->pager,
             'modules' => array_column((new ActivityLogModel())->select('module')->distinct()->findAll(), 'module'),
             'module'  => $module,
         ]);

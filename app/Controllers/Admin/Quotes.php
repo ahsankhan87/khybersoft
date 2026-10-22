@@ -18,7 +18,7 @@ class Quotes extends BaseAdmin
         return $this->render('admin/quotes/index', [
             'title'  => 'Custom Development Quotes',
             'items'  => $builder->paginate(20),
-            'pager'  => $builder->getPager(),
+            'pager'  => $builder->pager,
             'counts' => [
                 'new'      => $model->where('status', 'new')->countAllResults(),
                 'reviewing'=> $model->where('status', 'reviewing')->countAllResults(),

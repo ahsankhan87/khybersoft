@@ -37,7 +37,7 @@
                              data-aos="fade-up" data-aos-delay="<?= $gi * 50 + $pi * 80 ?>">
                             <!-- gradient glow border on hover -->
                             <div class="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                                 style="background:linear-gradient(135deg,rgba(79,70,229,.14),rgba(124,58,237,.10),rgba(16,185,129,.10));"></div>
+                                 style="background:linear-gradient(135deg,rgba(28,143,216,.14),rgba(37,99,235,.10),rgba(16,185,129,.10));"></div>
 
                             <div class="relative">
                                 <span class="inline-flex h-13 w-13 items-center justify-center rounded-2xl bg-gradient-to-br <?= esc($p['color'] ?: 'from-indigo-500 to-violet-500') ?> p-3.5 text-xl text-white shadow-soft">

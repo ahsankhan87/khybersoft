@@ -12,10 +12,15 @@ class Menus extends BaseAdmin
     public function index()
     {
         if ($resp = $this->guard('menus')) { return $resp; }
+        $menus = (new MenuModel())->orderBy('id')->findAll();
+        foreach ($menus as &$menu) {
+            $menu['items'] = (new MenuItemModel())->itemsFor((int) $menu['id']);
+        }
+        unset($menu);
 
         return $this->render('admin/menus/index', [
             'title' => 'Menus',
-            'menus' => (new MenuModel())->orderBy('id')->findAll(),
+            'menus' => $menus,
         ]);
     }
 
@@ -35,7 +40,7 @@ class Menus extends BaseAdmin
         if ($id) { $model->update($id, $data); } else { $id = $model->insert($data); }
         ActivityLogModel::record('save', 'menus', "Menu '{$data['name']}'");
 
-        return redirect()->to('/admin/menus/items/' . $id)->with('success', 'Menu saved.');
+        return redirect()->to('/admin/menus')->with('success', 'Menu saved.');
     }
 
     public function delete(int $id)
@@ -64,9 +69,13 @@ class Menus extends BaseAdmin
         ]);
     }
 
-    public function addItem(int $menuId)
+    public function addItem(int $menuId = 0)
     {
         if ($resp = $this->guard('menus')) { return $resp; }
+        $menuId = $menuId ?: (int) $this->request->getPost('menu_id');
+        if (! (new MenuModel())->find($menuId)) {
+            return redirect()->back()->with('error', 'Menu not found.');
+        }
         $label = trim((string) $this->request->getPost('label'));
         if ($label === '') {
             return redirect()->back()->with('error', 'Label is required.');

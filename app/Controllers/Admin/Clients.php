@@ -25,7 +25,7 @@ class Clients extends BaseAdmin
 
     public function save(?int $id = null)
     {
-        return $this->save($id);
+        return $this->persist($id);
     }
 
     public function delete(int $id)

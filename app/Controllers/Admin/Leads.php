@@ -4,33 +4,41 @@ namespace App\Controllers\Admin;
 
 use App\Models\ActivityLogModel;
 use App\Models\LeadModel;
-use App\Models\ProductModel;
 
 class Leads extends BaseAdmin
 {
     public function index()
     {
         if ($resp = $this->guard('leads')) { return $resp; }
-        $status = (string) ($this->request->getGet('status') ?? '');
-        $q      = trim((string) $this->request->getGet('q'));
+        $filterType = (string) ($this->request->getGet('type') ?? '');
+        $filterStatus = (string) ($this->request->getGet('status') ?? '');
         $model  = new LeadModel();
         $builder = $model->orderBy('id', 'desc');
-        if ($status !== '') { $builder->where('status', $status); }
-        if ($q !== '')      { $builder->groupStart()->like('full_name', $q)->orLike('email', $q)->orLike('company', $q)->groupEnd(); }
+        if ($filterType !== '') { $builder->where('type', $filterType); }
+        if ($filterStatus !== '') { $builder->where('status', $filterStatus); }
 
         return $this->render('admin/leads/index', [
-            'title'  => 'Product Leads',
-            'items'  => $builder->paginate(25),
-            'pager'  => $builder->getPager(),
-            'counts' => [
-                'new'       => $model->where('status', 'new')->countAllResults(),
-                'contacted' => $model->where('status', 'contacted')->countAllResults(),
-                'customer'  => $model->where('status', 'customer')->countAllResults(),
-                'junk'      => $model->where('status', 'junk')->countAllResults(),
-            ],
-            'status' => $status,
-            'q'      => $q,
+            'title'        => 'Leads & Inquiries',
+            'leads'        => $builder->paginate(25),
+            'pager'        => $builder->pager,
+            'filterType'   => $filterType,
+            'filterStatus' => $filterStatus,
         ]);
+    }
+
+    public function exportCsv()
+    {
+        if ($resp = $this->guard('leads')) { return $resp; }
+        $rows = (new LeadModel())->orderBy('id', 'desc')->findAll();
+        $csv = "id,type,name,email,company,status,created_at\n";
+        foreach ($rows as $row) {
+            $values = [$row['id'], $row['type'], $row['name'], $row['email'], $row['company'], $row['status'], $row['created_at']];
+            $csv .= implode(',', array_map(static fn ($value) => '"' . str_replace('"', '""', (string) $value) . '"', $values)) . "\n";
+        }
+
+        return $this->response->setContentType('text/csv')
+            ->setHeader('Content-Disposition', 'attachment; filename="leads-' . date('Ymd') . '.csv"')
+            ->setBody($csv);
     }
 
     public function show(int $id)
@@ -41,18 +49,14 @@ class Leads extends BaseAdmin
             return redirect()->to('/admin/leads')->with('error', 'Not found.');
         }
 
-        return $this->render('admin/leads/show', [
-            'title'    => 'Lead #' . $id,
-            'item'     => $item,
-            'products' => (new ProductModel())->findAll(),
-        ]);
+        return $this->render('admin/leads/show', ['title' => 'Lead #' . $id, 'lead' => $item]);
     }
 
     public function updateStatus(int $id)
     {
         if ($resp = $this->guard('leads')) { return $resp; }
         $status = (string) $this->request->getPost('status');
-        if (! in_array($status, ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost', 'junk'], true)) {
+        if (! in_array($status, ['new', 'read', 'replied', 'closed', 'spam'], true)) {
             return redirect()->back()->with('error', 'Invalid status.');
         }
         (new LeadModel())->update($id, ['status' => $status]);

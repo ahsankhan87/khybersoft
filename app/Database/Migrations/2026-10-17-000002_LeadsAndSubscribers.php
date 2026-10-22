@@ -5,7 +5,7 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\Migration;
 
 /**
- * Phase 1 – Leads unification + Newsletter hardening.
+ * Phase 1 â€“ Leads unification + Newsletter hardening.
  * Creates `leads`, alters `subscribers`. Data migration from
  * `contacts` / `custom_development_quotes` happens in LeadMigrationSeeder
  * (safe to re-run; source tables are kept until you drop them manually).
@@ -16,7 +16,7 @@ class LeadsAndSubscribers extends Migration
     {
         $this->forge->addKey('id', true);
         $this->forge->addField([
-            'type'         => ['type' => 'ENUM', 'value' => ['contact', 'quote', 'demo', 'trial', 'other'], 'default' => 'contact'],
+            'type'         => ['type' => 'ENUM', 'constraint' => ['contact', 'quote', 'demo', 'trial', 'other'], 'default' => 'contact'],
             'name'         => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => true],
             'company'      => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => true],
             'email'        => ['type' => 'VARCHAR', 'constraint' => 150],
@@ -25,11 +25,11 @@ class LeadsAndSubscribers extends Migration
             'message'      => ['type' => 'TEXT', 'null' => true],
             'product_id'   => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true], // wired up in Phase 3
             'plan_id'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true], // wired up in Phase 3
-            'extra'        => ['type' => 'TEXT', 'null' => true], // JSON: budget, timeline, modules… (quote form data)
+            'extra'        => ['type' => 'TEXT', 'null' => true], // JSON: budget, timeline, modulesâ€¦ (quote form data)
             'source_page'  => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'utm'          => ['type' => 'TEXT', 'null' => true], // JSON utm_* capture
             'ip_hash'      => ['type' => 'VARCHAR', 'constraint' => 64, 'null' => true],
-            'status'       => ['type' => 'ENUM', 'value' => ['new', 'read', 'replied', 'closed', 'spam'], 'default' => 'new'],
+            'status'       => ['type' => 'ENUM', 'constraint' => ['new', 'read', 'replied', 'closed', 'spam'], 'default' => 'new'],
             'assigned_to'  => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'replied_at'   => ['type' => 'DATETIME', 'null' => true],
             'legacy_table' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true], // provenance: contacts | custom_development_quotes
@@ -44,15 +44,37 @@ class LeadsAndSubscribers extends Migration
         $this->forge->createTable('leads', true);
 
         // ------------------------------------------------ subscribers alter
-        $this->forge->addColumn([
-            'status'         => ['type' => 'ENUM', 'value' => ['pending', 'confirmed', 'unsubscribed'], 'default' => 'confirmed'],
-            'confirm_token'  => ['type' => 'VARCHAR', 'constraint' => 64, 'null' => true],
-            'unsub_token'    => ['type' => 'VARCHAR', 'constraint' => 64, 'null' => true],
-            'confirmed_at'   => ['type' => 'DATETIME', 'null' => true],
-            'source'         => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
-            'updated_at'     => ['type' => 'DATETIME', 'null' => true],
-        ]);
-        $this->forge->process_alterTable('subscribers');
+        if ($this->db->tableExists('subscribers')) {
+            $have = [];
+            $columns = $this->db->query('SHOW COLUMNS FROM subscribers')->getResultArray();
+            foreach ($columns as $column) {
+                $have[] = $column['Field'];
+            }
+
+            $add = [];
+            if (! in_array('status', $have, true)) {
+                $add['status'] = ['type' => 'ENUM', 'constraint' => ['pending', 'confirmed', 'unsubscribed'], 'default' => 'confirmed'];
+            }
+            if (! in_array('confirm_token', $have, true)) {
+                $add['confirm_token'] = ['type' => 'VARCHAR', 'constraint' => 64, 'null' => true];
+            }
+            if (! in_array('unsub_token', $have, true)) {
+                $add['unsub_token'] = ['type' => 'VARCHAR', 'constraint' => 64, 'null' => true];
+            }
+            if (! in_array('confirmed_at', $have, true)) {
+                $add['confirmed_at'] = ['type' => 'DATETIME', 'null' => true];
+            }
+            if (! in_array('source', $have, true)) {
+                $add['source'] = ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true];
+            }
+            if (! in_array('updated_at', $have, true)) {
+                $add['updated_at'] = ['type' => 'DATETIME', 'null' => true];
+            }
+
+            if ($add) {
+                $this->forge->addColumn('subscribers', $add);
+            }
+        }
     }
 
     public function down()
@@ -64,3 +86,4 @@ class LeadsAndSubscribers extends Migration
         ]);
     }
 }
+

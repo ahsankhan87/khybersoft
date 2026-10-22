@@ -13,20 +13,21 @@ class PlatformFoundation extends Migration
     public function up()
     {
         // --------------------------------------------------------- roles
-        $this->forge->addKey('id', true);
         $this->forge->addField([
+            'id'          => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'name'        => ['type' => 'VARCHAR', 'constraint' => 50],
             'slug'        => ['type' => 'VARCHAR', 'constraint' => 50],
             'permissions' => ['type' => 'TEXT', 'null' => true], // JSON list of permission keys
             'created_at'  => ['type' => 'DATETIME', 'null' => true],
             'updated_at'  => ['type' => 'DATETIME', 'null' => true],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('slug');
         $this->forge->createTable('roles', true);
 
         // ------------------------------------------------------ admin_users
-        $this->forge->addKey('id', true);
         $this->forge->addField([
+            'id'             => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'name'           => ['type' => 'VARCHAR', 'constraint' => 100],
             'email'          => ['type' => 'VARCHAR', 'constraint' => 255],
             'password_hash'  => ['type' => 'VARCHAR', 'constraint' => 255],
@@ -39,16 +40,17 @@ class PlatformFoundation extends Migration
             'updated_at'     => ['type' => 'DATETIME', 'null' => true],
             'deleted_at'     => ['type' => 'DATETIME', 'null' => true],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('email');
         $this->forge->addKey('role_id');
         $this->forge->createTable('admin_users', true);
 
         // --------------------------------------------------------- settings
-        $this->forge->addKey('id', true);
         $this->forge->addField([
+            'id'         => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'key'        => ['type' => 'VARCHAR', 'constraint' => 100],
             'value'      => ['type' => 'TEXT', 'null' => true],
-            'type'       => ['type' => 'ENUM', 'value' => ['text', 'textarea', 'image', 'bool', 'select', 'json'], 'default' => 'text'],
+            'type'       => ['type' => 'ENUM', 'constraint' => ['text', 'textarea', 'image', 'bool', 'select', 'json'], 'default' => 'text'],
             'group'      => ['type' => 'VARCHAR', 'constraint' => 50, 'default' => 'general'], // general|branding|contact|social|seo|email
             'label'      => ['type' => 'VARCHAR', 'constraint' => 150, 'null' => true],
             'options'    => ['type' => 'TEXT', 'null' => true], // JSON choices for select type
@@ -57,25 +59,27 @@ class PlatformFoundation extends Migration
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('key');
         $this->forge->addKey('group');
         $this->forge->createTable('settings', true);
 
         // ------------------------------------------------------------ menus
-        $this->forge->addKey('id', true);
         $this->forge->addField([
+            'id'         => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'name'       => ['type' => 'VARCHAR', 'constraint' => 100],
-            'location'   => ['type' => 'ENUM', 'value' => ['header', 'footer', 'mobile'], 'default' => 'header'],
+            'location'   => ['type' => 'ENUM', 'constraint' => ['header', 'footer', 'mobile'], 'default' => 'header'],
             'is_active'  => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 1],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addKey('location');
         $this->forge->createTable('menus', true);
 
         // ------------------------------------------------------- menu_items
-        $this->forge->addKey('id', true);
         $this->forge->addField([
+            'id'         => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'menu_id'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
             'parent_id'  => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'label'      => ['type' => 'VARCHAR', 'constraint' => 100],
@@ -89,13 +93,14 @@ class PlatformFoundation extends Migration
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addKey('menu_id');
         $this->forge->addKey('parent_id');
         $this->forge->createTable('menu_items', true);
 
         // ------------------------------------------------------------ pages
-        $this->forge->addKey('id', true);
         $this->forge->addField([
+            'id'            => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'title'         => ['type' => 'VARCHAR', 'constraint' => 200],
             'slug'          => ['type' => 'VARCHAR', 'constraint' => 200],
             'body'          => ['type' => 'LONGTEXT', 'null' => true],
@@ -110,13 +115,14 @@ class PlatformFoundation extends Migration
             'updated_at'    => ['type' => 'DATETIME', 'null' => true],
             'deleted_at'    => ['type' => 'DATETIME', 'null' => true],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('slug');
         $this->forge->addKey(['is_published', 'deleted_at']);
         $this->forge->createTable('pages', true);
 
         // --------------------------------------------------------- seo_meta
-        $this->forge->addKey('id', true);
         $this->forge->addField([
+            'id'          => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'url_path'    => ['type' => 'VARCHAR', 'constraint' => 255], // e.g. /pricing
             'title'       => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => true],
             'description' => ['type' => 'VARCHAR', 'constraint' => 300, 'null' => true],
@@ -128,6 +134,7 @@ class PlatformFoundation extends Migration
             'created_at'  => ['type' => 'DATETIME', 'null' => true],
             'updated_at'  => ['type' => 'DATETIME', 'null' => true],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('url_path');
         $this->forge->createTable('seo_meta', true);
     }

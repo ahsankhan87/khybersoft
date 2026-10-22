@@ -26,7 +26,7 @@ $nav = [
     <!-- Design tokens: Config\Design is the single source of truth -->
     <link rel="stylesheet" href="<?= base_url('assets/css/khybersoft.css') ?>">
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <script>tailwind.config = { theme: <?= tailwind_theme_json() ?> };</script>
+    <script>tailwind.config = { theme: { extend: <?= tailwind_theme_json() ?> } };</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">

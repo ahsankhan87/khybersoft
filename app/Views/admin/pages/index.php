@@ -1,5 +1,6 @@
 <?= $this->extend('admin/layout/master') ?>
 <?= $this->section('content') ?>
+<?php $pages = $pages ?? ($items ?? []); ?>
 <div class="mb-5 flex justify-end">
     <a href="<?= site_url('admin/pages/create') ?>" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"><i class="fa-solid fa-plus mr-1"></i> New Page</a>
 </div>

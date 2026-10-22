@@ -49,7 +49,7 @@ trait HandlesFormSubmissions
 
         return $leads->insert(array_merge([
             'type'        => $type,
-            'source_page' => '/' . ltrim($this->request->uri->getPath() ?? '', '/'),
+            'source_page' => '/' . ltrim((string) ($this->request->getUri()->getPath() ?? ''), '/'),
             'utm'         => $this->captureUtm(),
             'ip_hash'     => hash('sha256', ($this->request->ipAddress() ?? '') . '|khybersoft'),
             'status'      => 'new',

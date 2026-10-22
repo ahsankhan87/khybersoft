@@ -29,7 +29,7 @@ class ActivityLogModel extends Model
                 'module'      => $module,
                 'target'      => $target,
                 'description' => mb_substr($description, 0, 500),
-                'ip'          => service('request')->IPAddress(),
+                'ip'          => service('request')->getIPAddress(),
                 'user_agent'  => mb_substr((string) service('request')->getUserAgent()->getAgentString(), 0, 255),
                 'payload'     => $payload ? json_encode($payload, JSON_UNESCAPED_UNICODE) : null,
             ]);

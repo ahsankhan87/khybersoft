@@ -47,7 +47,7 @@ class ProductDetail extends Migration
             'trial_days'     => ['type' => 'INT', 'constraint' => 3, 'default' => 14],
             'user_limit'     => ['type' => 'VARCHAR', 'constraint' => 60, 'null' => true],
             'features'       => ['type' => 'TEXT', 'null' => true],   // JSON ["feat a","feat b"]
-            'comparison'     => ['type' => 'TEXT', 'null' => true],   // JSON {"Invoicing":"✓","API":"Limited"}
+            'comparison'     => ['type' => 'TEXT', 'null' => true],   // JSON {"Invoicing":"âœ“","API":"Limited"}
             'is_popular'     => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
             'is_active'      => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 1],
             'sort_order'     => ['type' => 'INT', 'constraint' => 4, 'default' => 0],
@@ -81,7 +81,7 @@ class ProductDetail extends Migration
             'product_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
             'image'      => ['type' => 'VARCHAR', 'constraint' => 255],
             'caption'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-            'device'     => ['type' => 'ENUM', 'value' => ['desktop', 'mobile', 'tablet'], 'default' => 'desktop'],
+            'device'     => ['type' => 'ENUM', 'constraint' => ['desktop', 'mobile', 'tablet'], 'default' => 'desktop'],
             'sort_order' => ['type' => 'INT', 'constraint' => 4, 'default' => 0],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
@@ -103,7 +103,7 @@ class ProductDetail extends Migration
         $this->forge->addKey('product_id');
         $this->forge->createTable('product_faqs', true);
 
-        // --------------------------------------------- product ↔ tutorial link
+        // --------------------------------------------- product â†” tutorial link
         $this->forge->addKey('id', true);
         $this->forge->addField([
             'product_id'  => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
@@ -130,3 +130,4 @@ class ProductDetail extends Migration
         }
     }
 }
+

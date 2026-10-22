@@ -114,7 +114,7 @@ class Users extends BaseAdmin
         $model = new AdminUserModel();
         $data  = ['name' => $this->request->getPost('name')];
         if ((string) $this->request->getPost('new_password') !== '') {
-            $rules = ['new_password' => 'strong_password[minLength][8]'];
+            $rules = ['new_password' => 'min_length[8]'];
             if (! $this->validate($rules)) {
                 return redirect()->back()->with('errors', $this->validator->getErrors());
             }

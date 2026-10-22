@@ -33,7 +33,7 @@ $seoDesc  = ($seo['description'] ?? null) ?: ($meta_description ?? setting('site
     <link rel="stylesheet" href="<?= base_url('assets/css/khybersoft.css') ?>">
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script>
-        tailwind.config = { theme: <?= tailwind_theme_json() ?> };
+        tailwind.config = { theme: { extend: <?= tailwind_theme_json() ?> } };
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

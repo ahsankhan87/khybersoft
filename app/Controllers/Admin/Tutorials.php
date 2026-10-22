@@ -49,12 +49,12 @@ class Tutorials extends BaseAdmin
 
     public function store()
     {
-        return $this->save(null);
+        return $this->persist(null);
     }
 
     public function update(int $id)
     {
-        return $this->save($id);
+        return $this->persist($id);
     }
 
     public function delete(int $id)

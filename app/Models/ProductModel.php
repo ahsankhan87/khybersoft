@@ -88,7 +88,7 @@ class ProductModel extends Model
         if (count($out) < $n) {
             $excludeIds = array_merge([$product['id']], array_column($out, 'id'));
             $fill       = $this->where('status', 'active')
-                               ->notIn('id', $excludeIds)
+                               ->whereNotIn('id', $excludeIds)
                                ->orderBy('is_featured', 'DESC')
                                ->orderBy('sort_order')
                                ->limit($n - count($out))

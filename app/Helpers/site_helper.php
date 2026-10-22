@@ -51,8 +51,12 @@ if (! function_exists('media_url')) {
         if (preg_match('#^https?://#i', $path)) {
             return $path;
         }
+        $path = ltrim($path, '/');
+        if (str_starts_with($path, 'uploads/')) {
+            return rtrim(base_url(), '/') . '/' . $path;
+        }
 
-        return rtrim(base_url(), '/') . '/uploads/' . ltrim($path, '/');
+        return rtrim(base_url(), '/') . '/uploads/' . $path;
     }
 }
 

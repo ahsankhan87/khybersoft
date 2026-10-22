@@ -5,7 +5,7 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\Migration;
 
 /**
- * Homepage content modules (Phase 3–6 tables, built early so the homepage is fully dynamic):
+ * Homepage content modules (Phase 3â€“6 tables, built early so the homepage is fully dynamic):
  * products, product_categories, clients, testimonials, success_stories, integrations.
  */
 class HomepageContent extends Migration
@@ -44,7 +44,7 @@ class HomepageContent extends Migration
             'currency'      => ['type' => 'VARCHAR', 'constraint' => 3, 'default' => 'PKR'],
             'is_featured'   => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
             'sort_order'    => ['type' => 'INT', 'constraint' => 4, 'default' => 0],
-            'status'        => ['type' => 'ENUM', 'value' => ['active', 'draft', 'archived'], 'default' => 'active'],
+            'status'        => ['type' => 'ENUM', 'constraint' => ['active', 'draft', 'archived'], 'default' => 'active'],
             'created_at'    => ['type' => 'DATETIME', 'null' => true],
             'updated_at'    => ['type' => 'DATETIME', 'null' => true],
             'deleted_at'    => ['type' => 'DATETIME', 'null' => true],
@@ -78,9 +78,9 @@ class HomepageContent extends Migration
             'company_logo'  => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'product_id'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'rating'        => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 5],
-            'source'        => ['type' => 'ENUM', 'value' => ['site', 'google', 'facebook'], 'default' => 'site'],
+            'source'        => ['type' => 'ENUM', 'constraint' => ['site', 'google', 'facebook'], 'default' => 'site'],
             'is_featured'   => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'status'        => ['type' => 'ENUM', 'value' => ['approved', 'pending', 'hidden'], 'default' => 'approved'],
+            'status'        => ['type' => 'ENUM', 'constraint' => ['approved', 'pending', 'hidden'], 'default' => 'approved'],
             'sort_order'    => ['type' => 'INT', 'constraint' => 4, 'default' => 0],
             'created_at'    => ['type' => 'DATETIME', 'null' => true],
             'updated_at'    => ['type' => 'DATETIME', 'null' => true],
@@ -108,7 +108,7 @@ class HomepageContent extends Migration
             'metrics'       => ['type' => 'TEXT', 'null' => true],                    // JSON [{"label":"+40% revenue"}]
             'product_id'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'is_featured'   => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'status'        => ['type' => 'ENUM', 'value' => ['published', 'draft'], 'default' => 'published'],
+            'status'        => ['type' => 'ENUM', 'constraint' => ['published', 'draft'], 'default' => 'published'],
             'created_at'    => ['type' => 'DATETIME', 'null' => true],
             'updated_at'    => ['type' => 'DATETIME', 'null' => true],
             'deleted_at'    => ['type' => 'DATETIME', 'null' => true],
@@ -142,3 +142,4 @@ class HomepageContent extends Migration
         }
     }
 }
+
