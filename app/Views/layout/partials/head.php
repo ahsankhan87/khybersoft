@@ -30,7 +30,7 @@ $seoDesc  = ($seo['description'] ?? null) ?: ($meta_description ?? setting('site
     <!-- Tailwind CSS via CDN (migrate to Vite build later).
          Theme is generated from Config\Design — the single source of truth
          for Khybersoft design tokens. Do not hardcode colors/fonts here. -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/khybersoft.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/khybersoft.css') . '?v=' . @filemtime(FCPATH . 'assets/css/khybersoft.css') ?>">
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script>
         tailwind.config = { theme: { extend: <?= tailwind_theme_json() ?> } };

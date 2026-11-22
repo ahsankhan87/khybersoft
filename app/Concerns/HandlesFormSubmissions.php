@@ -51,7 +51,7 @@ trait HandlesFormSubmissions
             'type'        => $type,
             'source_page' => '/' . ltrim((string) ($this->request->getUri()->getPath() ?? ''), '/'),
             'utm'         => $this->captureUtm(),
-            'ip_hash'     => hash('sha256', ($this->request->ipAddress() ?? '') . '|khybersoft'),
+            'ip_hash'     => hash('sha256', ($this->request->getIPAddress() ?? '') . '|khybersoft'),
             'status'      => 'new',
         ], $fields), false);
     }

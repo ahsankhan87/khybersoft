@@ -25,8 +25,29 @@ $routes->get('blog', 'Blog::index');
 $routes->get('blogs/(:segment)', 'Blog::show/$1');
 $routes->get('blog/(:segment)', 'Blog::show/$1');
 $routes->get('news', 'News::index');
+$routes->get('news/(:segment)', 'News::show/$1');
 $routes->get('page/(:segment)', 'Page::show/$1');
 $routes->get('search', 'FrontPage::search');
+
+// Success stories & partners
+$routes->get('success-stories', 'FrontPage::successStories');
+$routes->get('success-stories/(:segment)', 'FrontPage::successStory/$1');
+$routes->get('partners', 'FrontPage::partners');
+
+// Resources
+$routes->get('help', 'Resources::help');
+$routes->get('tutorials', 'Resources::tutorials');
+$routes->get('tutorials/(:segment)', 'Resources::tutorial/$1');
+$routes->get('docs', 'Resources::docs');
+$routes->get('docs/api', 'Resources::apiDocs');
+$routes->get('status', 'Resources::status');
+$routes->get('changelog', 'Resources::changelog');
+
+// Legal (CMS pages, seeded + editable in Admin → Pages)
+$routes->get('privacy-policy', 'Page::show/privacy-policy');
+$routes->get('terms-of-use', 'Page::show/terms-of-use');
+$routes->get('terms', static fn () => redirect()->to('/terms-of-use'));
+$routes->get('refund-policy', 'Page::show/refund-policy');
 
 // Admin routes are explicit so each panel link resolves to a real controller action.
 $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
@@ -110,6 +131,8 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     });
     $routes->group('clients', ['namespace' => 'App\Controllers\Admin'], static function ($routes) {
         $routes->get('/', 'Clients::index');
+        $routes->get('create', 'Clients::create');
+        $routes->get('edit/(:num)', 'Clients::edit/$1');
         $routes->post('save', 'Clients::save');
         $routes->post('save/(:num)', 'Clients::save/$1');
         $routes->post('delete/(:num)', 'Clients::delete/$1');

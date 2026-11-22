@@ -25,7 +25,7 @@
 <div class="overflow-x-auto rounded-xl bg-white shadow-sm border border-slate-200">
     <table class="w-full text-left text-sm">
         <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-            <tr><th class="px-6 py-3">Name</th><th class="px-6 py-3">Email</th><th class="px-6 py-3">Type</th><th class="px-6 py-3">Subject</th><th class="px-6 py-3">Status</th><th class="px-6 py-3">Date</th><th class="px-6 py-3"></th></tr>
+            <tr><th class="px-6 py-3">Name</th><th class="px-6 py-3">Email</th><th class="px-6 py-3">Type</th><th class="px-6 py-3">Subject</th><th class="px-6 py-3">Status</th><th class="px-6 py-3 whitespace-nowrap">Date</th><th class="px-6 py-3"></th></tr>
         </thead>
         <tbody class="divide-y divide-slate-100">
             <?php if (! $leads): ?>
@@ -38,7 +38,7 @@
                     <td class="px-6 py-3"><span class="rounded-full bg-blue-50 px-2.5 py-1 text-xs capitalize text-blue-700"><?= esc($lead['type']) ?></span></td>
                     <td class="px-6 py-3 text-slate-600"><?= esc(str_limit($lead['subject'] ?? '', 45)) ?></td>
                     <td class="px-6 py-3 capitalize <?= $lead['status'] === 'new' ? 'text-amber-600 font-semibold' : 'text-slate-500' ?>"><?= esc($lead['status']) ?></td>
-                    <td class="px-6 py-3 text-slate-500"><?= esc(format_date($lead['created_at'])) ?></td>
+                    <td class="px-6 py-3 whitespace-nowrap text-slate-500"><?= esc(format_date($lead['created_at'])) ?></td>
                     <td class="px-6 py-3 text-right"><a href="<?= site_url('admin/leads/' . $lead['id']) ?>" class="text-blue-600 hover:underline">Open</a></td>
                 </tr>
             <?php endforeach; ?>

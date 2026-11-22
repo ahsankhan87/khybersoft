@@ -28,5 +28,14 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
     <!-- Site micro-interactions: counter animation, demo modal, announcement dismissal -->
     <script defer src="<?= base_url('js/site.js') ?>"></script>
+    <!-- Auto-scroll to form flash messages after submit -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var flash = document.querySelector('[data-flash]');
+            if (flash) {
+                flash.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    </script>
 </body>
 </html>

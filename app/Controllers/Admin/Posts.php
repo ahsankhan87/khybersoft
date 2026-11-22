@@ -19,6 +19,7 @@ class Posts extends BaseAdmin
     protected array  $booleans   = ['is_featured'];
     protected array  $rules      = ['title' => 'required|max_length[255]', 'slug' => 'required|alpha_dash|max_length[255]|is_unique[posts.slug,id,{id}]'];
     protected string $slugSource = 'title';
+    private ?int $savingId       = null;
 
     public function index()
     {
@@ -65,11 +66,21 @@ class Posts extends BaseAdmin
 
     public function store()
     {
+        if ($error = $this->validateFeaturedImageUpload()) {
+            return redirect()->back()->withInput()->with('error', $error);
+        }
+        $this->savingId = null;
+
         return $this->savePost(null);
     }
 
     public function update(int $id)
     {
+        if ($error = $this->validateFeaturedImageUpload()) {
+            return redirect()->back()->withInput()->with('error', $error);
+        }
+        $this->savingId = $id;
+
         return $this->savePost($id);
     }
 
@@ -185,6 +196,7 @@ class Posts extends BaseAdmin
         if (array_key_exists('category_id', $data) && $data['category_id'] === '') {
             $data['category_id'] = null;
         }
+        $this->attachFeaturedImage($data);
         if (($data['status'] ?? null) === 'published' && empty($data['published_at'])) {
             $data['published_at'] = date('Y-m-d H:i:s');
         }
@@ -213,11 +225,64 @@ class Posts extends BaseAdmin
 
     public function delete(int $id)
     {
+        if ($resp = $this->guard()) {
+            return $resp;
+        }
+
+        $post = (new PostModel())->find($id);
+        if ($post && ! empty($post['featured_image']) && str_starts_with((string) $post['featured_image'], 'uploads/posts/') && is_file(ROOTPATH . $post['featured_image'])) {
+            unlink(ROOTPATH . $post['featured_image']);
+        }
+
         return $this->destroy($id);
     }
 
     public function bulk()
     {
         return $this->bulk('/admin/posts');
+    }
+
+    private function validateFeaturedImageUpload(): ?string
+    {
+        $file = $this->request->getFile('featured_image_file');
+        if (! $file || ! $file->isValid() || $file->getSize() === 0) {
+            return null;
+        }
+
+        $allowedMime = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+        if (! in_array($file->getMimeType(), $allowedMime, true)) {
+            return 'Featured image must be an image (JPG, PNG, WebP, GIF or SVG).';
+        }
+        if ($file->getSize() > 2 * 1024 * 1024) {
+            return 'Featured image must be under 2 MB.';
+        }
+
+        return null;
+    }
+
+    private function attachFeaturedImage(array &$data): void
+    {
+        $file = $this->request->getFile('featured_image_file');
+        if (! $file || ! $file->isValid() || $file->getSize() === 0) {
+            return;
+        }
+
+        $dir = ROOTPATH . 'uploads/posts';
+        if (! is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        $ext  = strtolower($file->getClientExtension()) ?: 'png';
+        $name = bin2hex(random_bytes(8)) . '.' . $ext;
+        $file->move($dir, $name);
+
+        if ($this->savingId) {
+            $old = (new PostModel())->find($this->savingId);
+            if ($old && ! empty($old['featured_image']) && str_starts_with((string) $old['featured_image'], 'uploads/posts/') && is_file(ROOTPATH . $old['featured_image'])) {
+                unlink(ROOTPATH . $old['featured_image']);
+            }
+        }
+
+        $data['featured_image'] = 'uploads/posts/' . $name;
+        ActivityLogModel::record('upload', $this->module, 'Featured image uploaded', $data['featured_image']);
     }
 }

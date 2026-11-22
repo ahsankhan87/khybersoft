@@ -43,10 +43,121 @@ body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color: var(--
 
 .marquee-track:hover .marquee-inner { animation-play-state: paused; }
 
+/* CMS page body (admin-editable HTML) */
+.cms-body h2 { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; font-weight: 800; color: var(--ink); font-size: 1.5rem; line-height: 1.3; margin-top: 2.25rem; margin-bottom: 0.75rem; }
+.cms-body h3 { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; font-weight: 700; color: var(--ink); font-size: 1.2rem; margin-top: 1.75rem; margin-bottom: 0.5rem; }
+.cms-body p { margin-bottom: 1rem; color: #475569; }
+.cms-body ul, .cms-body ol { margin: 0 0 1rem 1.25rem; color: #475569; }
+.cms-body ul { list-style: disc; }
+.cms-body ol { list-style: decimal; }
+.cms-body li { margin-bottom: 0.375rem; }
+.cms-body a { color: var(--brand); font-weight: 600; }
+.cms-body a:hover { text-decoration: underline; }
+.cms-body strong { color: var(--ink); }
+.cms-body em { color: #64748B; }
+
 .logo-wall img { filter: grayscale(1); opacity:.55; transition: filter var(--t-base), opacity var(--t-base), transform var(--t-base); }
 .logo-wall img:hover { filter: none; opacity:1; transform: scale(1.05); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   html { scroll-behavior: auto; }
+}
+
+/* ==========================================================================
+   Admin panel form controls
+   Tailwind preflight resets border-width to 0; admin views set only
+   border-color (border-slate-300), so controls render borderless.
+   These defaults restore visible, consistent form styling.
+   ========================================================================== */
+.admin-panel input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+.admin-panel select,
+.admin-panel textarea {
+  border: 1px solid #94A3B8;
+  background-color: #fff;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: #111827;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.admin-panel input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):hover,
+.admin-panel select:hover,
+.admin-panel textarea:hover {
+  border-color: #64748B;
+}
+.admin-panel input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):focus,
+.admin-panel select:focus,
+.admin-panel textarea:focus {
+  border-color: var(--brand);
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(28 143 216 / 0.18);
+}
+.admin-panel input::placeholder,
+.admin-panel textarea::placeholder { color: #9CA3AF; }
+
+.admin-panel input[type="checkbox"],
+.admin-panel input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--brand);
+  border: 1px solid #CBD5E1;
+}
+
+.admin-panel input[type="file"] {
+  font-size: 0.875rem;
+  color: #475569;
+}
+.admin-panel input[type="file"]::file-selector-button {
+  margin-right: 0.75rem;
+  border: 1px solid #CBD5E1;
+  background: #F8FAFC;
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.admin-panel input[type="file"]::file-selector-button:hover { background: #EEF2F7; }
+
+/* Admin pagination (CodeIgniter pager markup) */
+.admin-panel .pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+}
+.admin-panel .pagination li a,
+.admin-panel .pagination li span,
+.admin-panel .pagination li.active a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.5rem;
+  background: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #475569;
+  text-decoration: none;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+.admin-panel .pagination li a:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-50);
+}
+.admin-panel .pagination li.active a,
+.admin-panel .pagination li.active span {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 700;
 }

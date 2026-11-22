@@ -1,292 +1,214 @@
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-primary to-secondary py-20">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-4xl text-center">
-            <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">Custom Software Development</h1>
-            <p class="mt-6 text-xl leading-8 text-blue-100">
-                Tailored solutions built specifically for your unique business challenges and opportunities.
-            </p>
+<?php /* Custom development page — matches homepage design system */ ?>
+<!-- Hero -->
+<section class="relative overflow-hidden bg-navy pb-20 pt-28 text-white">
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="absolute -top-32 left-1/4 h-[420px] w-[420px] rounded-full bg-primary/30 blur-[120px]"></div>
+        <div class="absolute bottom-0 right-0 h-[340px] w-[340px] rounded-full bg-violet/25 blur-[110px]"></div>
+        <div class="absolute inset-0 opacity-[0.06]"
+             style="background-image:linear-gradient(to right,#fff 1px,transparent 1px),linear-gradient(to bottom,#fff 1px,transparent 1px);background-size:44px 44px;"></div>
+    </div>
+    <div class="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-primary-200 backdrop-blur">
+            <i class="fa-solid fa-code"></i> Custom software, built for you
+        </span>
+        <h1 class="mt-6 font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+            <?= esc(setting('customdev_heading', 'Custom software development')) ?>
+        </h1>
+        <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+            <?= esc(setting('customdev_sub', 'Off-the-shelf does not fit every business. We design and build tailored web, desktop and mobile solutions around your exact workflow.')) ?>
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <a href="#quote" class="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-primary to-violet px-7 py-4 text-base font-bold text-white shadow-glow transition hover:-translate-y-0.5">
+                Get a free quote <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="<?= site_url_path('/products') ?>" class="inline-flex items-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-4 text-base font-semibold text-white backdrop-blur transition hover:bg-white/10">
+                Browse ready-made products
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Services Overview -->
-<section class="py-24">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-dark sm:text-4xl">Our Development Services</h2>
-            <p class="mt-4 text-xl text-gray-600">From concept to deployment, we deliver robust software solutions that drive your business forward.</p>
+<!-- Services -->
+<section class="bg-white py-24">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center" data-aos="fade-up">
+            <p class="text-sm font-bold uppercase tracking-widest text-primary">What we build</p>
+            <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Development services</h2>
+            <p class="mt-4 text-slate-500">From concept to deployment — robust software that drives your business forward.</p>
         </div>
 
-        <div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <!-- Web Application Development -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                    </svg>
-                </div>
-                <h3 class="mt-6 text-xl font-semibold text-dark">Web Application Development</h3>
-                <p class="mt-4 text-gray-600">
-                    Custom web applications built with modern technologies like CodeIgniter, Laravel, React, and Vue.js.
-                </p>
-                <ul class="mt-4 space-y-2">
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        Responsive Design
-                    </li>
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        API Integration
-                    </li>
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        Real-time Features
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Desktop Application Development -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-                    </svg>
-                </div>
-                <h3 class="mt-6 text-xl font-semibold text-dark">Desktop Application Development</h3>
-                <p class="mt-4 text-gray-600">
-                    Powerful desktop applications for Windows, with offline capabilities and seamless hardware integration.
-                </p>
-                <ul class="mt-4 space-y-2">
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        Offline Functionality
-                    </li>
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        Hardware Integration
-                    </li>
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        Database Management
-                    </li>
-                </ul>
-            </div>
-
-            <!-- E-commerce Solutions -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                    </svg>
-                </div>
-                <h3 class="mt-6 text-xl font-semibold text-dark">E-commerce Solutions</h3>
-                <p class="mt-4 text-gray-600">
-                    Complete online store development with payment integration, inventory management, and order processing.
-                </p>
-                <ul class="mt-4 space-y-2">
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        Payment Gateway Integration
-                    </li>
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        Inventory Management
-                    </li>
-                    <li class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        Multi-vendor Support
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Development Process -->
-<section class="bg-light py-24">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-dark sm:text-4xl">Our Development Process</h2>
-            <p class="mt-4 text-xl text-gray-600">A structured approach to ensure successful project delivery</p>
-        </div>
-
-        <div class="mt-16">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="text-center">
-                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto">
-                        <span class="text-2xl font-bold text-white">1</span>
-                    </div>
-                    <h3 class="mt-4 text-lg font-semibold text-dark">Discovery & Planning</h3>
-                    <p class="mt-2 text-gray-600">We analyze your requirements and create a detailed project roadmap</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto">
-                        <span class="text-2xl font-bold text-white">2</span>
-                    </div>
-                    <h3 class="mt-4 text-lg font-semibold text-dark">Design & Prototyping</h3>
-                    <p class="mt-2 text-gray-600">Create wireframes and prototypes for your approval</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto">
-                        <span class="text-2xl font-bold text-white">3</span>
-                    </div>
-                    <h3 class="mt-4 text-lg font-semibold text-dark">Development & Testing</h3>
-                    <p class="mt-2 text-gray-600">Agile development with regular testing and quality assurance</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto">
-                        <span class="text-2xl font-bold text-white">4</span>
-                    </div>
-                    <h3 class="mt-4 text-lg font-semibold text-dark">Deployment & Support</h3>
-                    <p class="mt-2 text-gray-600">Smooth deployment and ongoing maintenance support</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Technologies We Use -->
-<section class="py-24">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-dark sm:text-4xl">Technologies We Master</h2>
-            <p class="mt-4 text-xl text-gray-600">Using the right tools for the right job</p>
-        </div>
-
-        <div class="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6">
-            <!-- Technology Logos - You can replace these with actual logos -->
-            <div class="flex justify-center">
-                <div class="bg-gray-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
-                    <span class="font-bold text-dark"> <i class="fab fa-codepen w-6 h-6 text-blue-500"></i> CodeIgniter</span>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <div class="bg-gray-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
-                    <span class="font-bold text-dark"> <i class="fab fa-laravel w-6 h-6 text-blue-500"></i> Laravel</span>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <div class="bg-gray-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
-                    <span class="font-bold text-dark"><i class="fab fa-database w-6 h-6 text-blue-500"></i> MySQL</span>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <div class="bg-gray-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
-                    <span class="font-bold text-dark"><i class="fab fa-react w-6 h-6 text-blue-500"></i> React</span>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <div class="bg-gray-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
-                    <span class="font-bold text-dark"><i class="fab fa-vuejs w-6 h-6 text-green-500"></i> Vue.js</span>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <div class="bg-gray-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
-                    <span class="font-bold text-dark"> <i class="fab fa-tailwindcss w-6 h-6 text-blue-500"></i>Tailwind</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Get Quote Section -->
-<section class="bg-primary py-16">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="text-center">
-            <h2 class="text-3xl font-bold text-white">Ready to Start Your Project?</h2>
-            <p class="mt-4 text-xl text-blue-100">Let's discuss your requirements and create a solution that fits your needs</p>
-
-            <!-- Display messages -->
-            <div class="mt-8 max-w-2xl mx-auto text-left">
-                <?php if (session()->has('success')): ?>
-                    <div class="rounded-md bg-green-50 p-4">
-                        <p class="text-sm font-medium text-green-800"><?= session('success') ?></p>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (session()->has('error')): ?>
-                    <div class="rounded-md bg-red-50 p-4">
-                        <p class="text-sm font-medium text-red-800"><?= session('error') ?></p>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (session()->has('errors')): ?>
-                    <div class="rounded-md bg-red-50 p-4">
-                        <?php foreach (session('errors') as $error): ?>
-                            <p class="text-sm font-medium text-red-800"><?= $error ?></p>
+        <div class="mt-14 grid gap-8 md:grid-cols-3">
+            <?php
+            $services = [
+                ['icon' => 'fa-solid fa-display', 'title' => 'Web application development',
+                 'desc' => 'Custom web apps with modern stacks — CodeIgniter, Laravel, React and Vue.',
+                 'points' => ['Responsive design', 'API integration', 'Real-time features']],
+                ['icon' => 'fa-solid fa-laptop-code', 'title' => 'Desktop application development',
+                 'desc' => 'Powerful Windows applications with offline capability and hardware integration.',
+                 'points' => ['Offline functionality', 'Hardware integration', 'Database management']],
+                ['icon' => 'fa-solid fa-cart-shopping', 'title' => 'E-commerce solutions',
+                 'desc' => 'Complete online stores with payments, inventory and order processing.',
+                 'points' => ['Payment gateways', 'Inventory management', 'Multi-vendor support']],
+            ];
+            foreach ($services as $si => $s): ?>
+                <div class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-gradient-to-b from-slate-50 to-white p-8 transition hover:-translate-y-2 hover:shadow-glow"
+                     data-aos="fade-up" data-aos-delay="<?= $si * 120 ?>">
+                    <div class="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-gradient-to-br from-primary/10 to-violet/10 blur-2xl"></div>
+                    <span class="relative grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-primary to-violet text-xl text-white shadow-soft">
+                        <i class="<?= $s['icon'] ?>"></i>
+                    </span>
+                    <h3 class="relative mt-6 font-display text-xl font-bold text-slate-900"><?= esc($s['title']) ?></h3>
+                    <p class="relative mt-3 text-sm leading-7 text-slate-500"><?= esc($s['desc']) ?></p>
+                    <ul class="relative mt-5 space-y-2">
+                        <?php foreach ($s['points'] as $pt): ?>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-600">
+                                <i class="fa-solid fa-circle-check text-xs text-accent"></i> <?= esc($pt) ?>
+                            </li>
                         <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<!-- Process -->
+<section class="bg-navy py-24 text-white">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center" data-aos="fade-up">
+            <p class="text-sm font-bold uppercase tracking-widest text-emerald-400">How we work</p>
+            <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Our development process</h2>
+            <p class="mt-4 text-slate-400">A structured approach that keeps your project on time and on budget.</p>
+        </div>
+
+        <div class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <?php
+            $steps = [
+                ['fa-solid fa-magnifying-glass-chart', 'Discovery & planning', 'We analyze your requirements and create a detailed project roadmap.'],
+                ['fa-solid fa-pen-ruler', 'Design & prototyping', 'Wireframes and interactive prototypes for your approval before a line of code.'],
+                ['fa-solid fa-code', 'Development & testing', 'Agile sprints with regular demos, testing and quality assurance.'],
+                ['fa-solid fa-rocket', 'Deployment & support', 'Smooth launch, training for your team, and ongoing maintenance.'],
+            ];
+            foreach ($steps as $i => [$icon, $title, $desc]): ?>
+                <div class="relative text-center" data-aos="fade-up" data-aos-delay="<?= $i * 100 ?>">
+                    <div class="relative mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-white/[0.06] ring-1 ring-white/10">
+                        <i class="<?= $icon ?> text-2xl text-primary-300"></i>
+                        <span class="absolute -right-2 -top-2 grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br from-primary to-violet text-xs font-extrabold shadow-soft"><?= $i + 1 ?></span>
                     </div>
-                <?php endif; ?>
+                    <h3 class="mt-5 font-display text-lg font-bold"><?= esc($title) ?></h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-400"><?= esc($desc) ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<!-- Tech stack -->
+<section class="bg-white py-24">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center" data-aos="fade-up">
+            <p class="text-sm font-bold uppercase tracking-widest text-primary">Tech stack</p>
+            <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Technologies we master</h2>
+        </div>
+
+        <div class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            <?php
+            $stack = [
+                ['fa-solid fa-fire', 'CodeIgniter', 'text-red-500'],
+                ['fa-brands fa-laravel', 'Laravel', 'text-red-600'],
+                ['fa-solid fa-database', 'MySQL', 'text-primary'],
+                ['fa-brands fa-react', 'React', 'text-sky-500'],
+                ['fa-brands fa-vuejs', 'Vue.js', 'text-emerald-500'],
+                ['fa-brands fa-php', 'PHP', 'text-indigo-400'],
+            ];
+            foreach ($stack as $si => [$icon, $name, $color]): ?>
+                <div class="group flex flex-col items-center gap-3 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition hover:-translate-y-1.5 hover:border-primary-200 hover:shadow-soft"
+                     data-aos="zoom-in" data-aos-delay="<?= $si * 60 ?>">
+                    <i class="<?= $icon ?> text-3xl <?= $color ?> transition group-hover:scale-110"></i>
+                    <span class="text-xs font-bold text-slate-700"><?= esc($name) ?></span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<!-- Quote form -->
+<section class="relative overflow-hidden bg-gradient-to-br from-primary via-violet to-primary-700 py-24 text-white" id="quote">
+    <div class="pointer-events-none absolute inset-0 opacity-[0.08]" aria-hidden="true"
+         style="background-image:radial-gradient(#fff 1px,transparent 1px);background-size:26px 26px;"></div>
+    <div class="relative mx-auto max-w-3xl px-5 lg:px-8">
+        <div class="text-center">
+            <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Ready to start your project?</h2>
+            <p class="mx-auto mt-4 max-w-xl text-lg text-primary-100">Tell us what you need — we'll reply with a free quote within 24 hours.</p>
+        </div>
+
+        <?php if ($msg = session()->getFlashdata('success')): ?>
+            <div data-flash class="mt-8 rounded-2xl border border-emerald-300/40 bg-emerald-400/15 px-5 py-4 text-sm font-medium text-emerald-50">
+                <i class="fa-solid fa-circle-check mr-2"></i><?= esc($msg) ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($msg = session()->getFlashdata('error')): ?>
+            <div data-flash class="mt-8 rounded-2xl border border-red-300/40 bg-red-500/15 px-5 py-4 text-sm font-medium text-red-50">
+                <i class="fa-solid fa-circle-exclamation mr-2"></i><?= esc($msg) ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($errs = session()->getFlashdata('errors')): ?>
+            <div data-flash class="mt-8 rounded-2xl border border-red-300/40 bg-red-500/15 px-5 py-4 text-sm text-red-50">
+                <?php foreach ((array) $errs as $e): ?><p><?= esc($e) ?></p><?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <form method="post" action="<?= site_url('custom-development/quote') ?>" class="mt-10 space-y-5 rounded-3xl border border-white/20 bg-white/10 p-8 shadow-xl backdrop-blur">
+            <?= csrf_field() ?>
+            <input type="hidden" name="form_started_at" value="<?= time() ?>">
+            <div style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
             </div>
 
-            <form method="post" action="<?= site_url('custom-development/quote') ?>" class="mt-8 max-w-2xl mx-auto">
-                <?= csrf_field() ?>
-                <input type="hidden" name="form_started_at" value="<?= time() ?>">
+            <div class="grid gap-5 sm:grid-cols-2">
+                <input type="text" name="name" required placeholder="Full name" value="<?= esc(old('name')) ?>"
+                       class="w-full rounded-xl border border-white/25 bg-white/90 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+                <input type="text" name="company" placeholder="Company name" value="<?= esc(old('company')) ?>"
+                       class="w-full rounded-xl border border-white/25 bg-white/90 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+                <input type="email" name="email" required placeholder="Email address" value="<?= esc(old('email')) ?>"
+                       class="w-full rounded-xl border border-white/25 bg-white/90 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+                <input type="tel" name="phone" placeholder="Phone / WhatsApp" value="<?= esc(old('phone')) ?>"
+                       class="w-full rounded-xl border border-white/25 bg-white/90 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+            </div>
 
-                <div style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
-                    <label for="website">Website</label>
-                    <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
-                </div>
+            <select name="project_type" required
+                    class="w-full rounded-xl border border-white/25 bg-white/90 px-4 py-3 text-sm text-slate-900 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+                <option value="">Select project type…</option>
+                <?php foreach (['web-app' => 'Web application', 'desktop-app' => 'Desktop application', 'ecommerce' => 'E-commerce website', 'mobile-app' => 'Mobile application', 'custom-software' => 'Custom software', 'other' => 'Other'] as $v => $label): ?>
+                    <option value="<?= $v ?>" <?= old('project_type') === $v ? 'selected' : '' ?>><?= $label ?></option>
+                <?php endforeach; ?>
+            </select>
 
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <div>
-                        <label for="name" class="sr-only">Full Name</label>
-                        <input type="text" name="name" id="name" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Full Name" value="<?= old('name') ?>">
-                    </div>
-                    <div>
-                        <label for="company" class="sr-only">Company Name</label>
-                        <input type="text" name="company" id="company" class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Company Name" value="<?= old('company') ?>">
-                    </div>
-                    <div>
-                        <label for="email" class="sr-only">Email Address</label>
-                        <input type="email" name="email" id="email" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Email Address" value="<?= old('email') ?>">
-                    </div>
-                    <div>
-                        <label for="phone" class="sr-only">Phone Number</label>
-                        <input type="tel" name="phone" id="phone" class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Phone Number" value="<?= old('phone') ?>">
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label for="project_type" class="sr-only">Project Type</label>
-                        <select name="project_type" id="project_type" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary">
-                            <option value="">Select Project Type</option>
-                            <option value="web-app" <?= old('project_type') === 'web-app' ? 'selected' : '' ?>>Web Application</option>
-                            <option value="desktop-app" <?= old('project_type') === 'desktop-app' ? 'selected' : '' ?>>Desktop Application</option>
-                            <option value="ecommerce" <?= old('project_type') === 'ecommerce' ? 'selected' : '' ?>>E-commerce Website</option>
-                            <option value="mobile-app" <?= old('project_type') === 'mobile-app' ? 'selected' : '' ?>>Mobile Application</option>
-                            <option value="custom-software" <?= old('project_type') === 'custom-software' ? 'selected' : '' ?>>Custom Software</option>
-                            <option value="other" <?= old('project_type') === 'other' ? 'selected' : '' ?>>Other</option>
-                        </select>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label for="description" class="sr-only">Project Description</label>
-                        <textarea name="description" id="description" rows="4" required class="w-full rounded-md border-0 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" placeholder="Tell us about your project..."><?= old('description') ?></textarea>
-                    </div>
-                </div>
-                <div class="mt-6">
-                    <button type="submit" class="w-full rounded-md bg-white px-6 py-3 text-base font-semibold text-primary shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary sm:w-auto">
-                        Get Free Quote
-                    </button>
-                </div>
-            </form>
-        </div>
+            <div class="grid gap-5 sm:grid-cols-2">
+                <select name="budget"
+                        class="w-full rounded-xl border border-white/25 bg-white/90 px-4 py-3 text-sm text-slate-900 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+                    <option value="">Budget range (optional)…</option>
+                    <?php foreach (['under-100k' => 'Under PKR 100k', '100k-500k' => 'PKR 100k – 500k', '500k-2m' => 'PKR 500k – 2M', '2m-plus' => 'PKR 2M+'] as $v => $label): ?>
+                        <option value="<?= $v ?>" <?= old('budget') === $v ? 'selected' : '' ?>><?= $label ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <select name="timeline"
+                        class="w-full rounded-xl border border-white/25 bg-white/90 px-4 py-3 text-sm text-slate-900 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+                    <option value="">Timeline (optional)…</option>
+                    <?php foreach (['urgent' => 'ASAP / urgent', '1-3-months' => '1–3 months', '3-6-months' => '3–6 months', 'flexible' => 'Flexible'] as $v => $label): ?>
+                        <option value="<?= $v ?>" <?= old('timeline') === $v ? 'selected' : '' ?>><?= $label ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <textarea name="description" rows="4" required placeholder="Tell us about your project — goals, users, must-have features…"
+                      class="w-full rounded-xl border border-white/25 bg-white/90 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40"><?= esc(old('description')) ?></textarea>
+
+            <button type="submit"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-6 py-4 text-base font-bold text-primary shadow-xl transition hover:-translate-y-0.5 hover:shadow-2xl">
+                Get my free quote <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </form>
     </div>
 </section>

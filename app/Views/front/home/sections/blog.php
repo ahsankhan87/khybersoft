@@ -27,7 +27,7 @@
                         </div>
                         <div class="p-7">
                             <div class="flex items-center gap-3 text-xs">
-                                <span class="rounded-full bg-indigo-50 px-3 py-1 font-bold uppercase tracking-wide text-primary"><?= esc($post['category_name'] ?? 'Article') ?></span>
+                                <span class="rounded-full bg-indigo-50 px-3 py-1 font-bold uppercase tracking-wide text-primary"><?= esc(($post['category_name'] ?? null) ?: 'Article') ?></span>
                                 <time class="text-slate-400"><?= date('M j, Y', strtotime((string) ($post['published_at'] ?? $post['created_at'] ?? 'now'))) ?></time>
                             </div>
                             <h3 class="mt-3 line-clamp-2 font-display text-lg font-bold text-slate-900 transition group-hover:text-primary"><?= esc($post['title'] ?? '') ?></h3>

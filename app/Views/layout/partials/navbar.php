@@ -32,56 +32,90 @@ $navMenu = $navMenu ?? [];
             <?php endif; ?>
         </a>
 
-        <!-- Desktop nav -->
+        <!-- Desktop nav — order follows the DB menu; Products renders as mega-menu at its own position -->
         <div class="hidden items-center gap-1 lg:flex" x-data="{ openSub: null }" @mouseleave="openSub = null">
-            <!-- Products mega-menu -->
-            <div class="relative" @mouseenter="openSub = 'products'">
-                <button type="button" class="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition hover:bg-black/5"
-                        :class="openSub === 'products' && 'bg-black/5'">
-                    Products <i class="fa-solid fa-chevron-down text-[10px] transition" :class="openSub === 'products' && 'rotate-180'"></i>
-                </button>
-                <div x-show="openSub === 'products'" x-transition.origin.top.left.duration.200ms x-cloak
-                     class="absolute left-1/2 top-full -translate-x-1/2 pt-4">
-                    <div class="w-[720px] rounded-3xl border border-slate-100 bg-white p-6 shadow-glow">
-                        <div class="grid grid-cols-3 gap-2 text-slate-800">
-                            <?php foreach ($productCats as $c): ?>
-                                <?php
-                                $catProducts = model(\App\Models\ProductModel::class)
-                                    ->where('category_id', $c['id'])->where('status', 'active')
-                                    ->orderBy('sort_order')->limit(3)->findAll();
-                                ?>
-                                <div class="rounded-2xl p-3 transition hover:bg-indigo-50/70">
-                                    <p class="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
-                                        <i class="<?= esc($c['icon'] ?: 'fa-solid fa-layer-group') ?> text-primary"></i><?= esc($c['name']) ?>
-                                    </p>
-                                    <ul class="space-y-1.5">
-                                        <?php foreach ($catProducts as $p): ?>
-                                            <li>
-                                                <a href="<?= site_url_path('/products/' . $p['slug']) ?>" class="group block">
-                                                    <span class="block text-sm font-semibold text-slate-800 group-hover:text-primary"><?= esc($p['name']) ?></span>
-                                                    <span class="block text-xs text-slate-500"><?= esc($p['tagline']) ?></span>
+            <?php foreach ($navMenu as $item): ?>
+                <?php if (in_array(strtolower((string) $item['url']), ['/products', 'products'], true)): ?>
+                    <!-- Products mega-menu -->
+                    <div class="relative" @mouseenter="openSub = 'products'">
+                        <button type="button" class="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition hover:bg-black/5"
+                                :class="openSub === 'products' && 'bg-black/5'">
+                            <?= esc($item['label']) ?> <i class="fa-solid fa-chevron-down text-[10px] transition" :class="openSub === 'products' && 'rotate-180'"></i>
+                        </button>
+                        <div x-show="openSub === 'products'" x-transition.origin.top.left.duration.200ms x-cloak
+                             class="absolute left-1/2 top-full -translate-x-1/2 pt-4">
+                            <div class="w-[880px] overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-glow">
+                                <div class="flex">
+                                    <!-- Feature rail -->
+                                    <div class="relative hidden w-60 shrink-0 overflow-hidden bg-navy p-6 text-white lg:block">
+                                        <div class="pointer-events-none absolute inset-0 opacity-40" aria-hidden="true"
+                                             style="background:radial-gradient(18rem 12rem at 20% 0%, rgb(28 143 216/.55), transparent), radial-gradient(14rem 10rem at 100% 100%, rgb(37 99 235/.4), transparent);"></div>
+                                        <div class="relative">
+                                            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-300">One platform</p>
+                                            <p class="mt-2 font-display text-xl font-extrabold leading-snug">Every business need, one login.</p>
+                                            <p class="mt-2 text-xs leading-5 text-slate-300">POS, accounting, school, real-estate and HR — sharing one database.</p>
+                                            <a href="<?= site_url_path('/products') ?>"
+                                               class="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-violet px-4 py-2.5 text-xs font-bold text-white shadow-soft transition hover:-translate-y-0.5">
+                                                Explore all products <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                            </a>
+                                            <div class="mt-6 space-y-2 border-t border-white/10 pt-4 text-xs text-slate-300">
+                                                <p class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> Free setup & migration</p>
+                                                <p class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> 14-day free trial</p>
+                                                <p class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> Support in EN & Urdu</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Category columns -->
+                                    <div class="grid flex-1 grid-cols-2 gap-1.5 p-5 text-slate-800 sm:grid-cols-3">
+                                        <?php foreach ($productCats as $c): ?>
+                                            <?php
+                                            $catProducts = model(\App\Models\ProductModel::class)
+                                                ->where('category_id', $c['id'])->where('status', 'active')
+                                                ->orderBy('sort_order')->limit(3)->findAll();
+                                            ?>
+                                            <div class="rounded-2xl p-2.5 transition hover:bg-slate-50">
+                                                <a href="<?= site_url_path('/products/category/' . $c['slug']) ?>"
+                                                   class="mb-2 flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 transition hover:text-primary">
+                                                    <span class="grid h-6 w-6 place-items-center rounded-lg bg-gradient-to-br from-primary/15 to-violet/15 text-primary">
+                                                        <i class="<?= esc($c['icon'] ?: 'fa-solid fa-layer-group') ?> text-[10px]"></i>
+                                                    </span>
+                                                    <?= esc($c['name']) ?>
                                                 </a>
-                                            </li>
+                                                <ul class="space-y-0.5">
+                                                    <?php foreach ($catProducts as $p): ?>
+                                                        <li>
+                                                            <a href="<?= site_url_path('/products/' . $p['slug']) ?>"
+                                                               class="group flex items-center justify-between gap-2 rounded-xl px-2 py-1.5 transition hover:bg-indigo-50/80">
+                                                                <span class="min-w-0">
+                                                                    <span class="block truncate text-sm font-semibold text-slate-800 group-hover:text-primary"><?= esc($p['name']) ?></span>
+                                                                    <span class="block truncate text-xs text-slate-400"><?= esc($p['tagline']) ?></span>
+                                                                </span>
+                                                                <i class="fa-solid fa-arrow-right shrink-0 text-[10px] text-primary opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100"></i>
+                                                            </a>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                    <?php if (! $catProducts): ?>
+                                                        <li class="px-2 py-1.5 text-xs text-slate-400">Coming soon</li>
+                                                    <?php endif; ?>
+                                                </ul>
+                                            </div>
                                         <?php endforeach; ?>
-                                        <?php if (!$catProducts): ?>
-                                            <li class="text-sm text-slate-500"><?= esc($c['name']) ?></li>
-                                        <?php endif; ?>
-                                    </ul>
+                                    </div>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
-                            <a href="<?= site_url_path('/products') ?>" class="text-sm font-semibold text-primary hover:underline">View all products →</a>
-                            <a href="<?= site_url_path('/pricing') ?>" class="text-sm font-medium text-slate-500 hover:text-primary">Compare pricing</a>
+
+                                <!-- Footer strip -->
+                                <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/70 px-6 py-3.5">
+                                    <a href="<?= site_url_path('/products') ?>" class="text-sm font-bold text-primary transition hover:underline">View all products →</a>
+                                    <div class="flex items-center gap-5 text-xs font-semibold text-slate-500">
+                                        <a href="<?= site_url_path('/pricing') ?>" class="transition hover:text-primary"><i class="fa-solid fa-tag mr-1"></i>Compare pricing</a>
+                                        <a href="<?= site_url_path('/contact') ?>" class="transition hover:text-primary"><i class="fa-solid fa-calendar-check mr-1"></i>Book a demo</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Other top-level / dropdown items from DB menu (Solutions, Resources, Company, Pricing…) -->
-            <?php foreach ($navMenu as $item): ?>
-                <?php if (in_array(strtolower((string) $item['url']), ['/products', 'products'], true)) continue; ?>
-                <?php if (! empty($item['children'])): ?>
+                <?php elseif (! empty($item['children'])): ?>
                     <div class="relative" @mouseenter="openSub = <?= esc(json_encode($item['label'])) ?>">
                         <button type="button" class="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition hover:bg-black/5">
                             <?= esc($item['label']) ?> <i class="fa-solid fa-chevron-down text-[10px] transition" :class="openSub === <?= esc(json_encode($item['label'])) ?> && 'rotate-180'"></i>
@@ -129,24 +163,25 @@ $navMenu = $navMenu ?? [];
     <!-- Mobile drawer with accordions -->
     <div x-show="mobileOpen" x-cloak x-collapse class="max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-slate-100 bg-white px-5 pb-8 pt-3 text-slate-800 shadow-xl lg:hidden">
         <div x-data="{ acc: null }">
-            <button type="button" @click="acc = acc === 'p' ? null : 'p'" class="flex w-full items-center justify-between py-3 text-base font-semibold">
-                Products <i class="fa-solid fa-chevron-down text-xs transition" :class="acc === 'p' && 'rotate-180'"></i>
-            </button>
-            <div x-show="acc === 'p'" x-collapse class="pl-3">
-                <?php foreach ($productCats as $c): ?>
-                    <p class="pt-2 text-xs font-bold uppercase tracking-wider text-slate-400"><?= esc($c['name']) ?></p>
-                    <?php
-                    $mProds = model(\App\Models\ProductModel::class)
-                        ->where('category_id', $c['id'])->where('status', 'active')->limit(3)->findAll();
-                    foreach ($mProds as $p): ?>
-                        <a href="<?= site_url_path('/products/' . $p['slug']) ?>" class="block py-1.5 text-sm text-slate-600"><?= esc($p['name']) ?></a>
-                    <?php endforeach; ?>
-                <?php endforeach; ?>
-            </div>
-
             <?php foreach ($navMenu as $item): ?>
-                <?php if (in_array(strtolower((string) $item['url']), ['/products', 'products'], true)) continue; ?>
-                <?php if (! empty($item['children'])): ?>
+                <?php if (in_array(strtolower((string) $item['url']), ['/products', 'products'], true)): ?>
+                    <!-- Products accordion (rendered at its DB menu position) -->
+                    <button type="button" @click="acc = acc === 'p' ? null : 'p'" class="flex w-full items-center justify-between py-3 text-base font-semibold">
+                        <?= esc($item['label']) ?> <i class="fa-solid fa-chevron-down text-xs transition" :class="acc === 'p' && 'rotate-180'"></i>
+                    </button>
+                    <div x-show="acc === 'p'" x-collapse class="pl-3">
+                        <?php foreach ($productCats as $c): ?>
+                            <p class="pt-2 text-xs font-bold uppercase tracking-wider text-slate-400"><?= esc($c['name']) ?></p>
+                            <?php
+                            $mProds = model(\App\Models\ProductModel::class)
+                                ->where('category_id', $c['id'])->where('status', 'active')->limit(3)->findAll();
+                            foreach ($mProds as $p): ?>
+                                <a href="<?= site_url_path('/products/' . $p['slug']) ?>" class="block py-1.5 text-sm text-slate-600"><?= esc($p['name']) ?></a>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                        <a href="<?= site_url_path('/products') ?>" class="block py-2 text-sm font-semibold text-primary">View all products →</a>
+                    </div>
+                <?php elseif (! empty($item['children'])): ?>
                     <button type="button" @click="acc = acc === <?= esc(json_encode($item['label'])) ?> ? null : <?= esc(json_encode($item['label'])) ?>"
                             class="flex w-full items-center justify-between py-3 text-base font-semibold">
                         <?= esc($item['label']) ?> <i class="fa-solid fa-chevron-down text-xs transition" :class="acc === <?= esc(json_encode($item['label'])) ?> && 'rotate-180'"></i>

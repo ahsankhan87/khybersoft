@@ -70,9 +70,7 @@
                     <td class="px-4 py-3 text-right">
                         <a title="View page" target="_blank" href="<?= site_url('products/' . $p['slug']) ?>" class="mr-2 text-slate-400 hover:text-blue-600"><i class="fa-solid fa-up-right-from-square"></i></a>
                         <a title="Edit" href="<?= site_url('admin/products/edit/' . $p['id']) ?>" class="mr-2 text-slate-400 hover:text-blue-600"><i class="fa-solid fa-pen"></i></a>
-                        <form method="post" action="<?= site_url('admin/products/delete/' . $p['id']) ?>" class="inline" onsubmit="return confirm('Delete <?= esc(addslashes($p['name'])) ?> and all its plans/features?')">
-                            <?= csrf_field() ?><button title="Delete" class="text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>
-                        </form>
+                        <button title="Delete" form="delete-product-<?= (int) $p['id'] ?>" class="text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -81,4 +79,8 @@
         </table>
     </div>
 </form>
+<?php /* Delete forms live outside the bulk form — nested forms are invalid HTML and get dropped by browsers */ ?>
+<?php foreach ($products as $p): ?>
+    <form id="delete-product-<?= (int) $p['id'] ?>" method="post" action="<?= site_url('admin/products/delete/' . $p['id']) ?>" class="hidden" onsubmit="return confirm('Delete <?= esc(addslashes($p['name'])) ?> and all its plans/features?')"><?= csrf_field() ?></form>
+<?php endforeach; ?>
 <?= $this->endSection() ?>

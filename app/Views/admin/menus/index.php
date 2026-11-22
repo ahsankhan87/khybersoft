@@ -12,7 +12,7 @@
                     <li class="px-6 py-3">
                         <form method="post" action="<?= site_url('admin/menus/item/' . $item['id']) ?>" class="flex flex-wrap items-center gap-2">
                             <?= csrf_field() ?>
-                            <input name="label" value="<?= esc($item['label']) ?>" class="w-32 rounded border-slate-300 px-2 py-1 text-sm">
+                            <input name="label" value="<?= esc($item['label']) ?>" class="w-44 rounded border-slate-300 px-2 py-1 text-sm">
                             <input name="url" value="<?= esc($item['url']) ?>" class="flex-1 min-w-[8rem] rounded border-slate-300 px-2 py-1 text-sm">
                             <input name="sort_order" value="<?= (int) $item['sort_order'] ?>" type="number" class="w-16 rounded border-slate-300 px-2 py-1 text-sm">
                             <label class="text-xs text-slate-500"><input type="checkbox" name="is_active" value="1" <?= $item['is_active'] ? 'checked' : '' ?>> active</label>
@@ -29,7 +29,7 @@
                 <form method="post" action="<?= site_url('admin/menus/item') ?>" class="flex flex-wrap items-center gap-2">
                     <?= csrf_field() ?>
                     <input type="hidden" name="menu_id" value="<?= $menu['id'] ?>">
-                    <input name="label" placeholder="Label" required class="w-32 rounded border-slate-300 px-2 py-1 text-sm">
+                    <input name="label" placeholder="Label" required class="w-44 rounded border-slate-300 px-2 py-1 text-sm">
                     <input name="url" placeholder="/path or https://…" required class="flex-1 min-w-[8rem] rounded border-slate-300 px-2 py-1 text-sm">
                     <button class="rounded bg-blue-600 px-3 py-1 text-xs font-medium text-white">+ Add item</button>
                 </form>

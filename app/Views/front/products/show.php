@@ -172,10 +172,10 @@ $featuresList = json_decode((string) ($p['top_features'] ?? '[]'), true) ?: [];
         <p class="mt-3 text-center text-slate-400">Tell us where to reach you — we'll set up a personalized walkthrough of <?= esc($p['name']) ?>.</p>
 
         <?php if ($msg = session()->getFlashdata('success')): ?>
-            <div class="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300"><?= esc($msg) ?></div>
+            <div data-flash class="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300"><?= esc($msg) ?></div>
         <?php endif; ?>
         <?php if ($msg = session()->getFlashdata('error')): ?>
-            <div class="mt-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300"><?= esc($msg) ?></div>
+            <div data-flash class="mt-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300"><?= esc($msg) ?></div>
         <?php endif; ?>
 
         <form method="post" action="<?= site_url('products/lead') ?>" class="mt-8 space-y-4 rounded-3xl border border-white/10 bg-white/[0.06] p-7 backdrop-blur">

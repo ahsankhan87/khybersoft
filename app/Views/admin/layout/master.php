@@ -24,14 +24,14 @@ $nav = [
     <meta name="robots" content="noindex,nofollow">
     <link rel="stylesheet" href="<?= base_url('assets/fontawesome-free-7.0.0-web/css/all.min.css') ?>">
     <!-- Design tokens: Config\Design is the single source of truth -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/khybersoft.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/khybersoft.css') . '?v=' . @filemtime(FCPATH . 'assets/css/khybersoft.css') ?>">
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script>tailwind.config = { theme: { extend: <?= tailwind_theme_json() ?> } };</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased" x-data="{ sidebarOpen: false }">
+<body class="admin-panel bg-slate-100 text-slate-800 antialiased" x-data="{ sidebarOpen: false }">
 <div class="min-h-screen flex">
 
     <!-- Sidebar -->
