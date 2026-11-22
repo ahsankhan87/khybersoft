@@ -17,12 +17,18 @@ $seoDesc  = ($seo['description'] ?? null) ?: ($meta_description ?? setting('site
     <!-- Open Graph -->
     <meta property="og:title" content="<?= esc($seoTitle) ?>">
     <meta property="og:description" content="<?= esc($seoDesc) ?>">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="<?= esc($og_type ?? 'website') ?>">
     <meta property="og:site_name" content="<?= esc(setting('site_name')) ?>">
+    <meta property="og:url" content="<?= esc($og_url ?? $canonical ?? current_url()) ?>">
     <?php $ogImg = $og_image ?? ($seo['og_image'] ?? setting('og_default_image')); ?>
     <?php if (! empty($ogImg)): ?>
     <meta property="og:image" content="<?= esc(media_url($ogImg)) ?>">
+    <meta name="twitter:image" content="<?= esc(media_url($ogImg)) ?>">
     <?php endif; ?>
+    <meta name="twitter:card" content="<?= ! empty($ogImg) ? 'summary_large_image' : 'summary' ?>">
+    <meta name="twitter:title" content="<?= esc($seoTitle) ?>">
+    <meta name="twitter:description" content="<?= esc($seoDesc) ?>">
+    <meta name="twitter:url" content="<?= esc($og_url ?? $canonical ?? current_url()) ?>">
 
     <link rel="icon" href="<?= esc(media_url(setting('favicon')) ?: base_url('favicon.ico')) ?>">
     <link rel="stylesheet" href="<?= base_url('assets/fontawesome-free-7.0.0-web/css/all.min.css') ?>">

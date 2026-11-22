@@ -1,4 +1,34 @@
 <?php /* Blog single — navy hero header + prose body, matches design system */ ?>
+<?php
+$rawContent = (string) ($post['content'] ?? '');
+$decodedContent = $rawContent;
+for ($i = 0; $i < 3; $i++) {
+    $next = html_entity_decode($decodedContent, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    if ($next === $decodedContent) {
+        break;
+    }
+    $decodedContent = $next;
+}
+$hasHtmlMarkup = $decodedContent !== strip_tags($decodedContent);
+$shareUrl = (string) ($share_url ?? site_url_path('/blog/' . rawurlencode((string) ($post['slug'] ?? ''))));
+$shareText = (string) ($post['title'] ?? '');
+$facebookShareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode($shareUrl);
+$xShareUrl = 'https://twitter.com/intent/tweet?url=' . rawurlencode($shareUrl) . '&text=' . rawurlencode($shareText);
+$linkedinShareUrl = 'https://www.linkedin.com/sharing/share-offsite/?url=' . rawurlencode($shareUrl);
+?>
+<style>
+    .blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4, .blog-content h5, .blog-content h6 { color: #0f172a; font-weight: 700; line-height: 1.25; margin-top: 1.5rem; margin-bottom: .75rem; }
+    .blog-content h1 { font-size: 2rem; }
+    .blog-content h2 { font-size: 1.625rem; }
+    .blog-content h3 { font-size: 1.375rem; }
+    .blog-content p, .blog-content ul, .blog-content ol, .blog-content blockquote, .blog-content table { margin-top: .85rem; margin-bottom: .85rem; color: #334155; line-height: 1.85; }
+    .blog-content ul, .blog-content ol { padding-left: 1.25rem; }
+    .blog-content ul { list-style: disc; }
+    .blog-content ol { list-style: decimal; }
+    .blog-content a { color: #2563eb; text-decoration: underline; }
+    .blog-content img { border-radius: 1rem; max-width: 100%; height: auto; }
+    .blog-content blockquote { border-left: 4px solid #cbd5e1; padding-left: 1rem; font-style: italic; color: #475569; }
+</style>
 <article>
     <!-- Hero header -->
     <header class="relative overflow-hidden bg-navy pb-16 pt-28 text-white">
@@ -50,8 +80,12 @@
 
     <!-- Body -->
     <div class="mx-auto max-w-3xl px-5 py-14 sm:py-20 lg:px-8">
-        <div class="prose prose-lg prose-slate max-w-none prose-headings:font-display prose-headings:font-bold prose-a:font-semibold prose-a:text-primary hover:prose-a:underline prose-img:rounded-2xl">
-            <?= $post['content'] ?>
+        <div class="blog-content max-w-none text-[1.03rem]">
+            <?php if ($hasHtmlMarkup): ?>
+                <?= $decodedContent ?>
+            <?php else: ?>
+                <?= nl2br(esc($decodedContent)) ?>
+            <?php endif; ?>
         </div>
 
         <!-- Share + back -->
@@ -59,18 +93,62 @@
             <a href="<?= site_url_path('/blogs') ?>" class="inline-flex items-center gap-2 text-sm font-bold text-primary transition hover:underline">
                 <i class="fa-solid fa-arrow-left"></i> Back to all articles
             </a>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
                 <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Share</span>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=<?= rawurlencode(current_url()) ?>" target="_blank" rel="noopener" aria-label="Share on Facebook"
+                <a href="<?= esc($facebookShareUrl) ?>" target="_blank" rel="noopener" aria-label="Share on Facebook"
                    class="grid h-9 w-9 place-items-center rounded-full border border-slate-200 text-slate-500 transition hover:border-primary hover:bg-primary hover:text-white"><i class="fa-brands fa-facebook-f text-xs"></i></a>
-                <a href="https://twitter.com/intent/tweet?url=<?= rawurlencode(current_url()) ?>&text=<?= rawurlencode((string) $post['title']) ?>" target="_blank" rel="noopener" aria-label="Share on X"
+                <a href="<?= esc($xShareUrl) ?>" target="_blank" rel="noopener" aria-label="Share on X"
                    class="grid h-9 w-9 place-items-center rounded-full border border-slate-200 text-slate-500 transition hover:border-primary hover:bg-primary hover:text-white"><i class="fa-brands fa-x-twitter text-xs"></i></a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= rawurlencode(current_url()) ?>" target="_blank" rel="noopener" aria-label="Share on LinkedIn"
+                <a href="<?= esc($linkedinShareUrl) ?>" target="_blank" rel="noopener" aria-label="Share on LinkedIn"
                    class="grid h-9 w-9 place-items-center rounded-full border border-slate-200 text-slate-500 transition hover:border-primary hover:bg-primary hover:text-white"><i class="fa-brands fa-linkedin-in text-xs"></i></a>
+                <button type="button" data-copy-blog-link data-copy-url="<?= esc($shareUrl, 'attr') ?>"
+                        class="inline-flex h-9 items-center gap-2 rounded-full border border-slate-200 px-3 text-xs font-semibold text-slate-600 transition hover:border-primary hover:bg-primary hover:text-white"
+                        aria-label="Copy blog link">
+                    <i class="fa-solid fa-link" aria-hidden="true"></i>
+                    <span>Copy link</span>
+                </button>
+                <span data-copy-status class="sr-only" aria-live="polite"></span>
             </div>
         </div>
     </div>
 </article>
+
+<script>
+    document.querySelectorAll('[data-copy-blog-link]').forEach(function (button) {
+        button.addEventListener('click', async function () {
+            var link = button.getAttribute('data-copy-url');
+            var status = button.parentElement.querySelector('[data-copy-status]');
+            var label = button.querySelector('span');
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(link);
+                } else {
+                    var input = document.createElement('textarea');
+                    input.value = link;
+                    input.setAttribute('readonly', '');
+                    input.style.position = 'fixed';
+                    input.style.opacity = '0';
+                    document.body.appendChild(input);
+                    input.select();
+                    var copied = document.execCommand('copy');
+                    input.remove();
+                    if (!copied) {
+                        throw new Error('Clipboard copy was rejected.');
+                    }
+                }
+
+                label.textContent = 'Copied!';
+                status.textContent = 'Blog link copied to clipboard.';
+                window.setTimeout(function () { label.textContent = 'Copy link'; }, 2000);
+            } catch (error) {
+                status.textContent = 'Could not copy the link. Please copy the page address from your browser.';
+                label.textContent = 'Copy failed';
+                window.setTimeout(function () { label.textContent = 'Copy link'; }, 3000);
+            }
+        });
+    });
+</script>
 
 <!-- CTA -->
 <section class="relative overflow-hidden bg-gradient-to-br from-primary via-violet to-primary-700 py-16 text-white">

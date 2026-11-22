@@ -18,7 +18,7 @@
         </label>
         <label class="block text-sm font-medium text-slate-700">Reading time (minutes)<input type="number" min="1" name="read_minutes" value="<?= (int) ($post['read_minutes'] ?? 5) ?>" class="mt-1 w-full rounded-lg border-slate-300"></label>
         <label class="block text-sm font-medium text-slate-700 sm:col-span-2">Excerpt<textarea name="excerpt" rows="2" class="mt-1 w-full rounded-lg border-slate-300"><?= esc($post['excerpt'] ?? '') ?></textarea></label>
-        <label class="block text-sm font-medium text-slate-700 sm:col-span-2">Content<textarea id="post-content-editor" name="content" rows="16" class="mt-1 w-full rounded-lg border-slate-300"><?= esc($post['content'] ?? '') ?></textarea></label>
+        <label class="block text-sm font-medium text-slate-700 sm:col-span-2">Content<textarea id="post-content-editor" name="content" rows="16" class="mt-1 w-full rounded-lg border-slate-300"><?= $post['content'] ?? '' ?></textarea></label>
         <label class="block text-sm font-medium text-slate-700">Meta title<input name="meta_title" value="<?= esc($post['meta_title'] ?? '') ?>" class="mt-1 w-full rounded-lg border-slate-300"></label>
         <label class="block text-sm font-medium text-slate-700">Meta description<input name="meta_desc" value="<?= esc($post['meta_desc'] ?? '') ?>" class="mt-1 w-full rounded-lg border-slate-300"></label>
         <label class="block text-sm font-medium text-slate-700">Tags (comma separated)<input name="tags_input" value="<?= esc(implode(', ', $tagNames ?? [])) ?>" class="mt-1 w-full rounded-lg border-slate-300"></label>
